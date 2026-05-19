@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { FLAT, findBySlug } from "@/lib/manifest";
 import { loadChapterHtml, pagerFor } from "@/lib/content";
 import Pager from "@/components/Pager";
+import ReadAloud from "@/components/ReadAloud";
 
 export async function generateStaticParams() {
   return FLAT
@@ -27,6 +28,7 @@ export default async function ChapterPage({
       <div className="breadcrumb">
         {entry.section} <span className="breadcrumb-current">· {entry.title}</span>
       </div>
+      <ReadAloud />
       <article className="md" dangerouslySetInnerHTML={{ __html: html }} />
       <Pager prev={prev} next={next} />
     </>
