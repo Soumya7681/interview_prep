@@ -44,8 +44,11 @@ html, body {
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
   transition: background-color .2s ease, color .2s ease;
 }
+html, body { overflow-x: hidden; }
 
 /* ============================================================
    3. Layout
@@ -56,24 +59,38 @@ html, body {
   z-index: 50;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   height: var(--header-h);
-  padding: 0 20px;
+  padding: 0 12px;
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
   background: color-mix(in srgb, var(--bg) 85%, transparent);
   backdrop-filter: saturate(180%) blur(10px);
   -webkit-backdrop-filter: saturate(180%) blur(10px);
   border-bottom: 1px solid var(--border);
+}
+@media (min-width: 640px) {
+  .app-header {
+    gap: 16px;
+    padding: 0 20px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
   color: var(--text);
   text-decoration: none;
   font-weight: 700;
   font-size: 15px;
   letter-spacing: -0.01em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .brand-mark {
   width: 28px;
@@ -96,6 +113,7 @@ html, body {
 .icon-btn {
   width: 40px;
   height: 40px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
   background: transparent;
@@ -123,6 +141,7 @@ html, body {
   display: grid;
   grid-template-columns: 1fr;
   min-height: calc(100vh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
 }
 @media (min-width: 1024px) {
   .shell-grid { grid-template-columns: 280px 1fr; }
@@ -141,6 +160,8 @@ html, body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 20px 14px 60px;
+  padding-left: max(14px, env(safe-area-inset-left));
+  padding-bottom: max(60px, env(safe-area-inset-bottom));
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border);
   transform: translateX(-100%);
@@ -180,16 +201,20 @@ body.has-drawer-open { overflow: hidden; }
 
 .search-input {
   width: 100%;
-  padding: 8px 12px;
+  padding: 10px 12px;
   margin-bottom: 16px;
   font: inherit;
-  font-size: 13px;
+  /* 16px on mobile prevents iOS Safari from auto-zooming when the field is focused */
+  font-size: 16px;
   color: var(--text);
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 8px;
   outline: none;
   transition: border-color .15s, box-shadow .15s;
+}
+@media (min-width: 1024px) {
+  .search-input { font-size: 13px; padding: 8px 12px; }
 }
 .search-input:focus {
   border-color: var(--accent);
@@ -221,16 +246,25 @@ body.has-drawer-open { overflow: hidden; }
 
 .chap-link {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
-  padding: 6px 10px;
+  min-height: 36px;
+  padding: 8px 10px;
   margin: 1px 0;
   border-radius: 7px;
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--text-soft);
   text-decoration: none;
   line-height: 1.45;
   transition: background-color .12s, color .12s;
+}
+@media (min-width: 1024px) {
+  .chap-link {
+    align-items: baseline;
+    min-height: 0;
+    padding: 6px 10px;
+    font-size: 13.5px;
+  }
 }
 .chap-link:hover {
   background: var(--bg-elev);
@@ -254,10 +288,17 @@ body.has-drawer-open { overflow: hidden; }
 .content {
   width: 100%;
   max-width: 880px;
-  padding: 28px 20px 64px;
+  min-width: 0;
+  padding: 24px 16px 56px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
 }
 @media (min-width: 640px) {
-  .content { padding: 32px 32px 80px; }
+  .content {
+    padding: 32px 32px 80px;
+    padding-left: max(32px, env(safe-area-inset-left));
+    padding-right: max(32px, env(safe-area-inset-right));
+  }
 }
 @media (min-width: 1024px) {
   .content { padding: 40px 56px 80px; }
@@ -271,6 +312,51 @@ body.has-drawer-open { overflow: hidden; }
 .breadcrumb-current {
   color: var(--accent);
   font-weight: 500;
+}
+
+.read-aloud {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 4px;
+  margin: 0 0 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+}
+.read-aloud .read-aloud-btn {
+  width: auto;
+  min-width: 40px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 6px;
+  gap: 6px;
+  display: inline-flex;
+}
+@media (min-width: 640px) {
+  .read-aloud .read-aloud-btn { height: 32px; padding: 0 10px; min-width: 36px; }
+}
+.read-aloud .read-aloud-btn svg { width: 14px; height: 14px; }
+.read-aloud .read-aloud-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.read-aloud .read-aloud-btn:disabled:hover {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-soft);
+}
+.read-aloud-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+.read-aloud-status {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 0 8px;
+  letter-spacing: 0.02em;
 }
 
 .pager {
@@ -329,6 +415,12 @@ body.has-drawer-open { overflow: hidden; }
   /* Prevent long URLs / unbreakable code from overflowing on narrow screens */
   overflow-wrap: anywhere;
   word-break: break-word;
+  min-width: 0;
+  max-width: 100%;
+}
+.md img, .md video, .md iframe {
+  max-width: 100%;
+  height: auto;
 }
 .md h1, .md h2, .md h3, .md h4 {
   color: var(--text);
@@ -399,6 +491,12 @@ body.has-drawer-open { overflow: hidden; }
   line-height: 1.55;
   font-size: 13px;
   position: relative;
+  /* Constrain to parent so very wide code can't push the layout */
+  max-width: 100%;
+  min-width: 0;
+}
+@media (max-width: 639px) {
+  .md pre { font-size: 12px; padding: 12px 14px; border-radius: 8px; }
 }
 .md pre code {
   background: transparent;
@@ -415,6 +513,7 @@ body.has-drawer-open { overflow: hidden; }
    so they can scroll horizontally on small screens without blowing out the layout. */
 .md-table-wrap {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 0 0 22px;
