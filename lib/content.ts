@@ -55,17 +55,25 @@ function rewriteLinks(html: string, currentPath: string): string {
   );
 }
 
+// Wrap every <table>…</table> so it can scroll horizontally on small screens
+function wrapTables(html: string): string {
+  return html.replace(
+    /<table\b[\s\S]*?<\/table>/g,
+    (m) => `<div class="md-table-wrap">${m}</div>`,
+  );
+}
+
 export async function loadChapterHtml(chapter: FlatChapter): Promise<string> {
   const filePath = path.join(ROOT, chapter.path);
   const md = await fs.readFile(filePath, "utf8");
   const html = await marked.parse(md);
-  return rewriteLinks(html as string, chapter.path);
+  return wrapTables(rewriteLinks(html as string, chapter.path));
 }
 
 export async function loadReadme(): Promise<string> {
   const md = await fs.readFile(path.join(ROOT, "README.md"), "utf8");
   const html = await marked.parse(md);
-  return rewriteLinks(html as string, "README.md");
+  return wrapTables(rewriteLinks(html as string, "README.md"));
 }
 
 export function pagerFor(chapter: FlatChapter) {
