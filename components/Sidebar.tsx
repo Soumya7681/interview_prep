@@ -28,6 +28,12 @@ export default function Sidebar({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+  // Lock background scroll when the mobile drawer is open
+  useEffect(() => {
+    document.body.classList.toggle("has-drawer-open", open);
+    return () => document.body.classList.remove("has-drawer-open");
+  }, [open]);
+
   const sections = MANIFEST.map((sec) => {
     const matched = sec.chapters.filter(
       (ch) =>

@@ -94,8 +94,8 @@ html, body {
 }
 
 .icon-btn {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   background: transparent;
@@ -104,6 +104,7 @@ html, body {
   color: var(--text-soft);
   cursor: pointer;
   transition: background-color .15s, border-color .15s, color .15s;
+  -webkit-tap-highlight-color: transparent;
 }
 .icon-btn:hover {
   background: var(--bg-elev);
@@ -136,7 +137,9 @@ html, body {
   width: 86%;
   max-width: 320px;
   height: calc(100vh - var(--header-h));
+  height: calc(100dvh - var(--header-h));
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 20px 14px 60px;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border);
@@ -163,9 +166,16 @@ html, body {
   inset: 0;
   z-index: 40;
   background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
 }
 @media (min-width: 1024px) {
   .sidebar-scrim { display: none !important; }
+}
+
+/* When mobile drawer is open, lock the body so background doesn't scroll behind. */
+body.has-drawer-open { overflow: hidden; }
+@media (min-width: 1024px) {
+  body.has-drawer-open { overflow: auto; }
 }
 
 .search-input {
@@ -315,6 +325,11 @@ html, body {
 /* ============================================================
    4. Markdown
    ============================================================ */
+.md {
+  /* Prevent long URLs / unbreakable code from overflowing on narrow screens */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .md h1, .md h2, .md h3, .md h4 {
   color: var(--text);
   font-weight: 700;
@@ -322,14 +337,21 @@ html, body {
   line-height: 1.25;
 }
 .md h1 {
-  font-size: 32px;
+  font-size: 28px;
   margin: 4px 0 24px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--border);
 }
-.md h2 { font-size: 22px; margin: 40px 0 14px; }
-.md h3 { font-size: 17px; margin: 28px 0 10px; }
+.md h2 { font-size: 20px; margin: 36px 0 14px; }
+.md h3 { font-size: 16.5px; margin: 26px 0 10px; }
 .md h4 { font-size: 15px; margin: 20px 0 8px; }
+
+@media (min-width: 640px) {
+  .md h1 { font-size: 32px; }
+  .md h2 { font-size: 22px; margin: 40px 0 14px; }
+  .md h3 { font-size: 17px; margin: 28px 0 10px; }
+}
+
 .md p  { margin: 0 0 16px; color: var(--text); }
 .md ul, .md ol { padding-left: 24px; margin: 0 0 18px; }
 .md li { margin: 6px 0; }
@@ -372,6 +394,7 @@ html, body {
   border-radius: 10px;
   padding: 14px 16px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin: 0 0 20px;
   line-height: 1.55;
   font-size: 13px;
@@ -383,21 +406,32 @@ html, body {
   padding: 0;
   font-size: 13px;
   font-weight: 400;
+  word-break: normal;        /* keep code from breaking mid-token */
+  overflow-wrap: normal;
+  white-space: pre;
 }
 
-.md table {
+/* Tables are wrapped in <div class="md-table-wrap"> by the markdown renderer
+   so they can scroll horizontally on small screens without blowing out the layout. */
+.md-table-wrap {
   width: 100%;
-  border-collapse: collapse;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin: 0 0 22px;
-  font-size: 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  overflow: hidden;
+}
+.md-table-wrap > table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 14px;
 }
 .md th, .md td {
   padding: 8px 12px;
   text-align: left;
   border-bottom: 1px solid var(--border-soft);
+  white-space: nowrap;
 }
 .md th {
   background: var(--bg-sidebar);
@@ -406,6 +440,9 @@ html, body {
 }
 .md tr:last-child td { border-bottom: none; }
 .md tr:hover td { background: var(--bg-sidebar); }
+@media (min-width: 768px) {
+  .md th, .md td { white-space: normal; }
+}
 
 /* ============================================================
    5. highlight.js token colors
