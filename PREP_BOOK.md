@@ -1,5 +1,7 @@
 # The Full-Stack Developer Interview Preparation Book
 
+[![Star on GitHub](https://img.shields.io/github/stars/Soumya7681/interview_prep.svg?style=social)](https://github.com/Soumya7681/interview_prep/stargazers)
+
 > A complete, structured study guide for the React.js / Node.js Full-Stack Developer role at TCS (3+ years experience).
 > Every topic includes **Definition → Explanation → Example → Common Interview Questions**.
 
