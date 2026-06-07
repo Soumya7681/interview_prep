@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
-import { FLAT, findBySlug } from "@/lib/manifest";
+import { FLAT, findBySlug, DSA_PATH } from "@/lib/manifest";
 import { loadChapterHtml, pagerFor } from "@/lib/content";
+import { loadDsaContent } from "@/lib/dsa";
 import Pager from "@/components/Pager";
 import ReadAloud from "@/components/ReadAloud";
+import DsaChecklist from "@/components/DsaChecklist";
 
 export async function generateStaticParams() {
   return FLAT
@@ -20,8 +22,28 @@ export default async function ChapterPage({
   const entry = findBySlug(slug);
   if (!entry || entry.path === "README.md") notFound();
 
-  const html = await loadChapterHtml(entry);
   const { prev, next } = pagerFor(entry);
+
+  // The DSA chapter renders as an interactive, progress-tracking checklist
+  // rather than static markdown.
+  if (entry.path === DSA_PATH) {
+    const dsa = await loadDsaContent();
+    return (
+      <>
+        <div className="breadcrumb">
+          {entry.section} <span className="breadcrumb-current">· {entry.title}</span>
+        </div>
+        <article className="md">
+          <h1>{dsa.title}</h1>
+          {dsa.intro && <p className="dsa-intro">{dsa.intro}</p>}
+        </article>
+        <DsaChecklist categories={dsa.categories} total={dsa.total} />
+        <Pager prev={prev} next={next} />
+      </>
+    );
+  }
+
+  const html = await loadChapterHtml(entry);
 
   return (
     <>

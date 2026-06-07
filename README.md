@@ -85,7 +85,8 @@ prepNote/
 │   └── 02-common-questions.md
 │
 ├── 09-revision-sheet.md               ← night-before cheat sheet
-└── 10-appendix.md                     ← documents + questions to ask
+├── 10-appendix.md                     ← documents + questions to ask
+└── 11-dsa-coding-questions.md         ← top 200+ coding questions
 ```
 
 ---
@@ -124,6 +125,7 @@ prepNote/
 | 8 | `08-hr-behavioral/` | HR round |
 | 9 | `09-revision-sheet.md` | Final revision |
 | 10 | `10-appendix.md` | Logistics |
+| 11 | `11-dsa-coding-questions.md` | DSA / logical coding questions |
 
 ---
 
@@ -139,7 +141,7 @@ prepNote/
 | Machine coding | 2 | Frontend (search/pagination/forms/tables), Backend (JWT CRUD) |
 | System design | 5 | Auth, scaling, caching, monolith vs micro, security |
 | HR | 2 | Self-intro, common questions |
-| Reference | 2 | Revision sheet, appendix |
+| Reference | 3 | Revision sheet, appendix, 200+ DSA coding questions |
 
 ---
 

@@ -117,14 +117,25 @@ export const MANIFEST: Section[] = [
     ],
   },
   {
+    title: "DSA & Coding",
+    folder: "",
+    chapters: [
+      { num: "51", file: "11-dsa-coding-questions.md", title: "Coding Question Tracker" },
+    ],
+  },
+  {
     title: "Reference",
     folder: "",
     chapters: [
-      { num: "51", file: "09-revision-sheet.md", title: "Night-Before Revision" },
-      { num: "52", file: "10-appendix.md",       title: "Documents & Q&A" },
+      { num: "52", file: "09-revision-sheet.md", title: "Night-Before Revision" },
+      { num: "53", file: "10-appendix.md",       title: "Documents & Q&A" },
     ],
   },
 ];
+
+// The DSA chapter is rendered as an interactive checklist instead of static
+// markdown, so a few modules need to recognise it by path.
+export const DSA_PATH = "11-dsa-coding-questions.md";
 
 export type FlatChapter = Chapter & {
   section: string;
