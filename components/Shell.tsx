@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
+import StarButton from "./StarButton";
 
 export default function Shell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isLanding = pathname === "/";
 
   const toggleTheme = () => {
     const html = document.documentElement;
@@ -19,15 +23,17 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <header className="app-header">
-        <button
-          aria-label="Toggle menu"
-          className="icon-btn mobile-only"
-          onClick={() => setOpen((o) => !o)}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
-          </svg>
-        </button>
+        {!isLanding && (
+          <button
+            aria-label="Toggle menu"
+            className="icon-btn mobile-only"
+            onClick={() => setOpen((o) => !o)}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
+            </svg>
+          </button>
+        )}
 
         <Link href="/" className="brand">
           <span className="brand-mark">PB</span>
@@ -36,6 +42,14 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </Link>
 
         <div style={{ flex: 1 }} />
+
+        {isLanding && (
+          <Link href="/start" className="nav-cta desktop-only">
+            Start preparing
+          </Link>
+        )}
+
+        <StarButton variant="header" />
 
         <button aria-label="Toggle theme" className="icon-btn" onClick={toggleTheme}>
           <svg className="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -52,8 +66,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       </header>
 
       <div className="shell-grid">
-        <Sidebar open={open} onClose={() => setOpen(false)} />
-        <main className="content">{children}</main>
+        {!isLanding && <Sidebar open={open} onClose={() => setOpen(false)} />}
+        <main className={isLanding ? "landing-main" : "content"}>{children}</main>
       </div>
     </>
   );

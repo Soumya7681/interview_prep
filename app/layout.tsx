@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Shell from "@/components/Shell";
+import { SITE_URL, SITE_NAME, SITE_TAGLINE, SEO_KEYWORDS } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,9 +15,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Prep Book — Full-Stack Interview",
-  description:
-    "Structured interview preparation: JavaScript, React, Node.js, NestJS, MongoDB, system design, machine coding, and HR.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Full-Stack Developer Interview Prep Book — React, Node.js, MongoDB & DSA",
+    template: "%s · Prep Book",
+  },
+  description: SITE_TAGLINE,
+  applicationName: SITE_NAME,
+  keywords: SEO_KEYWORDS,
+  authors: [{ name: "Soumyaranjan" }],
+  category: "education",
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: "Full-Stack Developer Interview Prep Book",
+    description: SITE_TAGLINE,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Full-Stack Developer Interview Prep Book",
+    description: SITE_TAGLINE,
+  },
 };
 
 // Runs synchronously in <head> before React hydrates → no flash of wrong theme

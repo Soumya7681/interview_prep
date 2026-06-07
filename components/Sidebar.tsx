@@ -7,7 +7,7 @@ import { MANIFEST } from "@/lib/manifest";
 
 function slugHref(folder: string, file: string) {
   const base = file.replace(/\.md$/, "").toLowerCase();
-  if (!folder && base === "readme") return "/";
+  if (!folder && base === "readme") return "/start";
   return folder ? `/${folder}/${base}` : `/${base}`;
 }
 
@@ -75,9 +75,7 @@ export default function Sidebar({
             {sec.matched.map((ch) => {
               const href = slugHref(sec.folder, ch.file);
               const isActive =
-                href === "/"
-                  ? pathname === "/"
-                  : pathname === href || pathname === href + "/";
+                pathname === href || pathname === href + "/";
 
               return (
                 <Link

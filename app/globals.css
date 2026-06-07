@@ -782,6 +782,270 @@ body.has-drawer-open { overflow: hidden; }
 }
 
 /* ============================================================
+   8b. GitHub star button (header + landing) and nav CTA
+   ============================================================ */
+.star-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.star-btn svg { flex-shrink: 0; }
+
+/* Header variant — compact, outlined */
+.star-btn-header {
+  height: 38px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+}
+.star-btn-header svg { width: 15px; height: 15px; color: #e3a008; }
+.star-btn-header:hover { border-color: var(--accent); color: var(--accent); }
+/* On small screens, show just the star icon in the header to save space */
+@media (max-width: 639px) {
+  .star-btn-header span { display: none; }
+  .star-btn-header { padding: 0; width: 38px; justify-content: center; }
+}
+
+/* Hero variant — larger, filled outline for the landing CTAs */
+.star-btn-hero {
+  height: 46px;
+  padding: 0 20px;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+}
+.star-btn-hero svg { width: 18px; height: 18px; color: #e3a008; }
+.star-btn-hero:hover { border-color: var(--accent); color: var(--accent); }
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-radius: 8px;
+}
+.nav-cta:hover { background: var(--accent-soft); }
+
+/* ============================================================
+   8c. Landing page
+   ============================================================ */
+.landing-main {
+  width: 100%;
+  min-width: 0;
+}
+.landing {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 48px 22px 96px;
+  padding-left: max(22px, env(safe-area-inset-left));
+  padding-right: max(22px, env(safe-area-inset-right));
+}
+@media (min-width: 640px) {
+  .landing { padding: 72px 32px 120px; }
+}
+
+.lp-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+@media (min-width: 640px) {
+  .lp-section-title { font-size: 26px; }
+}
+.lp-section-sub {
+  color: var(--text-soft);
+  font-size: 15px;
+  max-width: 640px;
+  margin: 0 0 24px;
+}
+
+/* Hero */
+.lp-hero {
+  text-align: center;
+  padding: 12px 0 8px;
+}
+.lp-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 5px 12px;
+  border-radius: 99px;
+  margin-bottom: 20px;
+}
+.lp-title {
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin: 0 auto 16px;
+  max-width: 760px;
+}
+@media (min-width: 640px) {
+  .lp-title { font-size: 46px; }
+}
+.lp-sub {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-soft);
+  max-width: 660px;
+  margin: 0 auto 28px;
+}
+.lp-sub strong { color: var(--text); font-weight: 650; }
+
+.lp-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.lp-hero .lp-cta-row { justify-content: center; }
+.lp-cta-center { justify-content: center; }
+
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 22px;
+  font-size: 15px;
+  font-weight: 650;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.lp-btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+}
+.lp-btn-primary:hover { filter: brightness(1.08); }
+
+.lp-stats {
+  list-style: none;
+  margin: 44px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+@media (min-width: 640px) {
+  .lp-stats { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+}
+.lp-stats li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 16px 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-elev);
+}
+.lp-stats strong {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.lp-stats span { font-size: 12.5px; color: var(--text-muted); text-align: center; }
+
+/* Companies */
+.lp-companies { margin-top: 72px; text-align: center; }
+.lp-companies .lp-section-sub { margin-left: auto; margin-right: auto; }
+.lp-company-grid {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.lp-company-chip {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-soft);
+  border-radius: 99px;
+  padding: 8px 16px;
+}
+
+/* Topics */
+.lp-topics { margin-top: 72px; }
+.lp-topic-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 560px) {
+  .lp-topic-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 860px) {
+  .lp-topic-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.lp-topic-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-elev);
+  text-decoration: none;
+}
+.lp-topic-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.lp-topic-title { font-weight: 650; font-size: 15.5px; color: var(--text); }
+.lp-topic-meta { font-size: 12.5px; color: var(--text-muted); }
+
+/* Final CTA */
+.lp-final {
+  margin-top: 80px;
+  text-align: center;
+  padding: 40px 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-subtle);
+}
+.lp-final .lp-section-sub { margin-left: auto; margin-right: auto; }
+
+.lp-footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.lp-footer a { color: var(--accent); text-decoration: none; }
+.lp-footer a:hover { text-decoration: underline; }
+
+/* ============================================================
    8. highlight.js token colors
    ============================================================ */
 .hljs              { color: var(--text); background: transparent; }

@@ -6,7 +6,7 @@ import { useDsaProgress } from "@/lib/progress";
 
 function firstChapterHref(folder: string, file: string) {
   const base = file.replace(/\.md$/, "").toLowerCase();
-  if (!folder && base === "readme") return "/";
+  if (!folder && base === "readme") return "/start";
   return folder ? `/${folder}/${base}` : `/${base}`;
 }
 

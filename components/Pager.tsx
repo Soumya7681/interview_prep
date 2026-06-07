@@ -3,7 +3,7 @@ import type { FlatChapter } from "@/lib/manifest";
 
 function hrefFor(ch: FlatChapter) {
   return ch.slug.length === 1 && ch.slug[0] === "readme"
-    ? "/"
+    ? "/start"
     : "/" + ch.slug.join("/");
 }
 
