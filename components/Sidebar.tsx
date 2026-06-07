@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MANIFEST } from "@/lib/manifest";
+import { COMPILER_URL } from "@/lib/site";
 
 function slugHref(folder: string, file: string) {
   const base = file.replace(/\.md$/, "").toLowerCase();
@@ -34,6 +35,12 @@ export default function Sidebar({
     return () => document.body.classList.remove("has-drawer-open");
   }, [open]);
 
+  // The Practice group isn't part of the markdown manifest — it links to the
+  // interactive playground and the external compiler. Show it unless the search
+  // query clearly doesn't relate to it.
+  const showPractice =
+    !q || ["practice", "playground", "compiler", "javascript", "js"].some((k) => k.includes(q) || q.includes(k));
+
   const sections = MANIFEST.map((sec) => {
     const matched = sec.chapters.filter(
       (ch) =>
@@ -59,7 +66,31 @@ export default function Sidebar({
           autoComplete="off"
         />
 
-        {sections.length === 0 && (
+        {showPractice && (
+          <div className="section-group">
+            <div className="section-label">Practice</div>
+            <Link
+              href="/playground"
+              className={`chap-link ${
+                pathname === "/playground" || pathname === "/playground/" ? "is-active" : ""
+              }`}
+            >
+              <span className="chap-num">▶</span>
+              <span>JS Playground</span>
+            </Link>
+            <a
+              href={COMPILER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="chap-link"
+            >
+              <span className="chap-num">↗</span>
+              <span>Online Compiler</span>
+            </a>
+          </div>
+        )}
+
+        {sections.length === 0 && !showPractice && (
           <p style={{ color: "var(--text-muted)", fontSize: 12, padding: "8px 10px" }}>
             No chapters match.
           </p>

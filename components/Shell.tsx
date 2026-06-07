@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import StarButton from "./StarButton";
+import CompilerButton from "./CompilerButton";
 
 export default function Shell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -49,6 +50,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </Link>
         )}
 
+        <CompilerButton variant="header" />
         <StarButton variant="header" />
 
         <button aria-label="Toggle theme" className="icon-btn" onClick={toggleTheme}>

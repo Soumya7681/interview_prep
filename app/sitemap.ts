@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: url("/"), changeFrequency: "monthly", priority: 1 },
     { url: url("/start/"), changeFrequency: "weekly", priority: 0.9 },
+    { url: url("/playground/"), changeFrequency: "monthly", priority: 0.6 },
   ];
 
   const chapterPages: MetadataRoute.Sitemap = FLAT

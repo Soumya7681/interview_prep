@@ -4,6 +4,10 @@ import path from "node:path";
 import { Marked } from "marked";
 import hljs from "highlight.js";
 import { FLAT, FlatChapter } from "./manifest";
+import { COMPILER_URL } from "./site";
+
+// Languages that can be run in the JavaScript online compiler.
+const RUNNABLE_LANGS = new Set(["javascript", "js", "jsx", "ts", "tsx", "typescript", "node"]);
 
 // Markdown lives at the Next.js project root (same folder as package.json)
 const ROOT = process.cwd();
@@ -18,7 +22,13 @@ const renderer = {
   code({ text, lang }: { text: string; lang?: string }) {
     const language = lang && hljs.getLanguage(lang) ? lang : "plaintext";
     const highlighted = hljs.highlight(text, { language, ignoreIllegals: true }).value;
-    return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
+    const runnable = RUNNABLE_LANGS.has((lang || "").toLowerCase());
+    const toolbar = `<div class="code-toolbar"><span class="code-lang">${language}</span>${
+      runnable
+        ? `<a class="code-run" href="${COMPILER_URL}" target="_blank" rel="noopener noreferrer">Run in compiler ↗</a>`
+        : ""
+    }</div>`;
+    return `<div class="code-block">${toolbar}<pre><code class="hljs language-${language}">${highlighted}</code></pre></div>`;
   },
 };
 marked.use({ renderer });

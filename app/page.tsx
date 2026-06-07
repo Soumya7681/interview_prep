@@ -9,6 +9,7 @@ import {
   GITHUB_REPO,
 } from "@/lib/site";
 import StarButton from "@/components/StarButton";
+import CompilerButton from "@/components/CompilerButton";
 
 export const metadata: Metadata = {
   title: "Full-Stack Developer Interview Prep — React, Node.js, MongoDB & DSA",
@@ -138,6 +139,25 @@ export default function LandingPage() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      {/* Practice / compiler CTA */}
+      <section className="lp-compiler">
+        <div className="lp-compiler-inner">
+          <div>
+            <h2 className="lp-section-title">Don&apos;t just read — run the code</h2>
+            <p className="lp-section-sub">
+              Every JavaScript example is one click from a live editor. Practice
+              right in your browser with the built-in online compiler — no setup.
+            </p>
+            <div className="lp-cta-row">
+              <Link href="/playground" className="lp-btn lp-btn-primary">
+                Open the playground →
+              </Link>
+              <CompilerButton variant="hero" label="Launch compiler ↗" />
+            </div>
+          </div>
         </div>
       </section>
 
