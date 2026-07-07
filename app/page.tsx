@@ -55,13 +55,16 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="landing">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <div className="landing-wrapper">
+      <div className="landing-bg-glow" />
+      <div className="landing-bg-grid" />
+      <div className="landing">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
 
-      {/* Hero */}
+        {/* Hero */}
       <section className="lp-hero">
         <span className="lp-eyebrow">Free &amp; open-source · MERN + NestJS</span>
         <h1 className="lp-title">
@@ -182,6 +185,7 @@ export default function LandingPage() {
           View source on GitHub
         </a>
       </footer>
+      </div>
     </div>
   );
 }

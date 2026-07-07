@@ -37,8 +37,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         )}
 
         <Link href="/" className="brand">
-          <span className="brand-mark">PB</span>
-          <span>Prep Book</span>
+          <span className="brand-mark">JP</span>
+          <span>JobPrep</span>
           <span className="brand-tag desktop-only">full-stack interview</span>
         </Link>
 
