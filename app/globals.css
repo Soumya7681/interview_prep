@@ -56,6 +56,7 @@ html, body {
 html, body { overflow-x: hidden; }
 /* Offset for the fixed header so page content isn't hidden beneath it. */
 body { padding-top: var(--header-h); }
+body:has(.landing-main) { padding-top: 0 !important; }
 
 * { transition: none; }
 h1, h2, h3, h4, h5, h6, .brand-logo {
