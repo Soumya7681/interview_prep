@@ -1,6 +1,6 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "jobprep",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -24,5 +24,21 @@
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "description": "A comprehensive, open-source full-stack engineering interview prep guide covering React, Node.js, NestJS, System Design, and DSA.",
+  "author": "Soumyaranjan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soumya7681/interview_prep.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "interview",
+    "full-stack",
+    "react",
+    "nodejs",
+    "nestjs",
+    "dsa",
+    "system-design"
+  ]
 }
