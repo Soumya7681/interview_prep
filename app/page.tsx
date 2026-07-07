@@ -217,6 +217,43 @@ export default function LandingPage() {
 
         <div className="np-hr"></div>
 
+        {/* SEO JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is this full-stack interview prep really free?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. The entire curriculum, including over 200+ Data Structures & Algorithms questions, system design guides, and React/Node.js cheat sheets, is 100% open-source and free forever."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Which companies are these questions meant for?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our curriculum is meticulously categorized into FAANG (Google, Amazon, Meta, Microsoft, Oracle) and top Service companies (TCS, Infosys, Wipro, Accenture). We track the exact questions asked in their most recent 2026 hiring cycles."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do I need to know both React and NestJS?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While the book heavily features React on the frontend and Node.js/NestJS on the backend, the core architectural concepts (System Design, Microservices, Authentication, Database Indexing) apply universally across any technology stack."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+
         <footer className="np-footer">
           <span>{SITE_NAME}</span>
           <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" style={{color: "inherit", marginLeft: "10px"}}>View on GitHub</a>

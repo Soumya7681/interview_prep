@@ -1,10 +1,24 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { FLAT, findBySlug, DSA_PATH } from "@/lib/manifest";
 import { loadChapterHtml, pagerFor } from "@/lib/content";
 import { loadDsaContent } from "@/lib/dsa";
 import Pager from "@/components/Pager";
 import ReadAloud from "@/components/ReadAloud";
 import DsaChecklist from "@/components/DsaChecklist";
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string[] }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = findBySlug(slug);
+  if (!entry) return {};
+
+  return {
+    title: entry.title,
+    description: `Deep dive into ${entry.title}: Master real-world full-stack concepts, architecture, and coding questions to crack your next interview.`,
+  };
+}
 
 export async function generateStaticParams() {
   return FLAT
