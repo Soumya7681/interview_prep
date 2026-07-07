@@ -53,7 +53,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             </svg>
           </button>
 
-          <Link href="/start" className="brand">
+          <Link href="/" className="brand">
             <span className="brand-mark">JP</span>
             <span>JobPrep</span>
             <span className="brand-tag desktop-only">full-stack interview</span>
