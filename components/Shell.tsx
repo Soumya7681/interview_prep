@@ -24,11 +24,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       {isLanding ? (
-        <div style={{ position: "fixed", top: "20px", right: "20px", zIndex: 100, display: "flex", gap: "10px" }}>
-          <Link href="/start" className="np-btn" style={{ padding: "8px 16px", fontSize: "14px", display: "flex", alignItems: "center" }}>
+        <div className="landing-sticky-nav">
+          <Link href="/start" className="np-btn landing-nav-btn">
             Dashboard →
           </Link>
-          <button aria-label="Toggle theme" className="np-btn" onClick={toggleTheme} style={{ padding: "8px 12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button aria-label="Toggle theme" className="np-btn landing-nav-btn icon-only" onClick={toggleTheme}>
             <svg className="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 16, height: 16 }}>
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" strokeLinejoin="round" />
             </svg>

@@ -1383,6 +1383,9 @@ body.has-drawer-open { overflow: hidden; }
   min-height: 100vh;
   padding: 40px 20px;
 }
+@media (max-width: 600px) {
+  .newspaper-wrapper { padding: 10px 5px; }
+}
 
 :root[data-theme="dark"] .newspaper-wrapper {
   background-color: #1a1a1a;
@@ -1396,6 +1399,44 @@ body.has-drawer-open { overflow: hidden; }
   padding: 40px;
   background-color: #fdfcf8;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+@media (max-width: 600px) {
+  .newspaper-container { padding: 20px 15px; }
+}
+
+/* Landing Page Sticky Nav */
+.landing-sticky-nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+}
+.landing-nav-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing-nav-btn.icon-only {
+  padding: 8px 12px;
+}
+
+@media (max-width: 600px) {
+  .landing-sticky-nav {
+    top: 10px;
+    right: 10px;
+    gap: 6px;
+  }
+  .landing-nav-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .landing-nav-btn.icon-only {
+    padding: 6px 8px;
+  }
 }
 
 :root[data-theme="dark"] .newspaper-container {
