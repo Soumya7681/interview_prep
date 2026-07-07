@@ -1,6 +1,6 @@
 // Central site config — reused by metadata, the landing page, and the sitemap.
 // Update SITE_URL to your real deployed domain so OG tags and the sitemap are absolute.
-export const SITE_URL = "https://jobprep.soureetech.com/";
+export const SITE_URL = "https://jobprep.soureetech.com";
 
 export const GITHUB_REPO = "https://github.com/Soumya7681/interview_prep";
 export const GITHUB_STARS_URL = `${GITHUB_REPO}/stargazers`;
