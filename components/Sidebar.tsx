@@ -131,12 +131,12 @@ export default function Sidebar({
                 onClick={() => toggleSection(sec.title)}
                 style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
               >
-                <span>
+                <span style={{ display: "flex", alignItems: "center" }}>
                   {sec.title}
                   <span className="section-badge" style={{ marginLeft: "6px" }}>{sec.matched.length}</span>
                 </span>
                 {!isSearching && (
-                  <span style={{ fontSize: "10px", opacity: 0.6 }}>{isExpanded ? "▼" : "▶"}</span>
+                  <span style={{ fontSize: "10px", opacity: 0.6, display: "flex", alignItems: "center" }}>{isExpanded ? "▼" : "▶"}</span>
                 )}
               </div>
 
