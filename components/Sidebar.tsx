@@ -35,9 +35,34 @@ export default function Sidebar({
     return () => document.body.classList.remove("has-drawer-open");
   }, [open]);
 
-  // The Practice group isn't part of the markdown manifest — it links to the
-  // interactive playground and the external compiler. Show it unless the search
-  // query clearly doesn't relate to it.
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  // Auto-expand the section containing the active path
+  useEffect(() => {
+    const nextExpanded = { ...expanded };
+    MANIFEST.forEach((sec) => {
+      const hasActive = sec.chapters.some((ch) => {
+        const href = slugHref(sec.folder, ch.file);
+        return pathname === href || pathname === href + "/";
+      });
+      if (hasActive) {
+        nextExpanded[sec.title] = true;
+      }
+    });
+    // Also default to expanding the first section if nothing is expanded
+    if (Object.keys(nextExpanded).length === 0) {
+      nextExpanded[MANIFEST[0].title] = true;
+    }
+    setExpanded(nextExpanded);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  const toggleSection = (title: string) => {
+    setExpanded((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
+
+  const isSearching = q.length > 0;
+
   const showPractice =
     !q || ["practice", "playground", "compiler", "javascript", "js"].some((k) => k.includes(q) || q.includes(k));
 
@@ -96,31 +121,44 @@ export default function Sidebar({
           </p>
         )}
 
-        {sections.map((sec) => (
-          <div key={sec.title} className="section-group">
-            <div className="section-label">
-              {sec.title}
-              <span className="section-badge">{sec.matched.length}</span>
+        {sections.map((sec) => {
+          const isExpanded = isSearching || expanded[sec.title];
+          
+          return (
+            <div key={sec.title} className="section-group">
+              <div
+                className="section-label"
+                onClick={() => toggleSection(sec.title)}
+                style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+              >
+                <span>
+                  {sec.title}
+                  <span className="section-badge" style={{ marginLeft: "6px" }}>{sec.matched.length}</span>
+                </span>
+                {!isSearching && (
+                  <span style={{ fontSize: "10px", opacity: 0.6 }}>{isExpanded ? "▼" : "▶"}</span>
+                )}
+              </div>
+
+              {isExpanded && sec.matched.map((ch) => {
+                const href = slugHref(sec.folder, ch.file);
+                const isActive =
+                  pathname === href || pathname === href + "/";
+
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={`chap-link ${isActive ? "is-active" : ""}`}
+                  >
+                    <span className="chap-num">{ch.num}</span>
+                    <span>{ch.title}</span>
+                  </Link>
+                );
+              })}
             </div>
-
-            {sec.matched.map((ch) => {
-              const href = slugHref(sec.folder, ch.file);
-              const isActive =
-                pathname === href || pathname === href + "/";
-
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`chap-link ${isActive ? "is-active" : ""}`}
-                >
-                  <span className="chap-num">{ch.num}</span>
-                  <span>{ch.title}</span>
-                </Link>
-              );
-            })}
-          </div>
-        ))}
+          );
+        })}
       </aside>
     </>
   );
