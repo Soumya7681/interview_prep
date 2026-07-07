@@ -40,7 +40,6 @@ export default function LandingPage() {
   const learningSections = MANIFEST.filter((s) => s.title !== "Getting Started");
   const totalChapters = FLAT.filter((f) => f.path !== "README.md").length;
 
-  // Structured data so search engines understand this is a free learning resource.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LearningResource",
@@ -55,136 +54,89 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="landing-wrapper">
-      <div className="landing-bg-glow" />
-      <div className="landing-bg-grid" />
-      <div className="landing">
+    <div className="newspaper-wrapper">
+      <div className="newspaper-container">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        {/* Hero */}
-      <section className="lp-hero">
-        <span className="lp-eyebrow">Free &amp; open-source · MERN + NestJS</span>
-        <h1 className="lp-title">
-          Crack your full-stack developer interview with confidence
-        </h1>
-        <p className="lp-sub">
-          A structured, no-fluff prep book covering JavaScript, React, Node.js,
-          NestJS, MongoDB, system design, machine coding, DSA, and HR rounds —
-          every topic as <strong>Definition → Explanation → Code → Real-world
-          use → Likely questions</strong>.
-        </p>
-        <div className="lp-cta-row">
-          <Link href="/start" className="lp-btn lp-btn-primary">
-            Start preparing →
-          </Link>
-          <StarButton variant="hero" />
-        </div>
+        {/* Header */}
+        <header className="np-header">
+          <div className="np-meta">
+            <span>Vol. I — No. 1</span>
+            <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            <span>Price: FREE</span>
+          </div>
+          <h1 className="np-title">THE DAILY PREP</h1>
+          <h2 className="np-subtitle">THE MOST COMPREHENSIVE GUIDE FOR FULL-STACK ENGINEERS</h2>
+          <div className="np-hr"></div>
+        </header>
 
-        <ul className="lp-stats" aria-label="What's inside">
-          <li>
-            <strong>{totalChapters}</strong>
-            <span>topic chapters</span>
-          </li>
-          <li>
-            <strong>200+</strong>
-            <span>DSA coding questions</span>
-          </li>
-          <li>
-            <strong>{learningSections.length}</strong>
-            <span>interview rounds</span>
-          </li>
-          <li>
-            <strong>100%</strong>
-            <span>free, forever</span>
-          </li>
-        </ul>
-      </section>
-
-      {/* Companies — SEO + social proof */}
-      <section className="lp-companies">
-        <h2 className="lp-section-title">
-          Prep for interviews at the companies you&apos;re targeting
-        </h2>
-        <p className="lp-section-sub">
-          Built around the questions real panels ask at top MNCs, service
-          giants, and product companies hiring full-stack developers.
-        </p>
-        <ul className="lp-company-grid">
-          {COMPANIES.map((name) => (
-            <li key={name} className="lp-company-chip">
-              {name}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Topics */}
-      <section className="lp-topics">
-        <h2 className="lp-section-title">Everything you need, organized by round</h2>
-        <div className="lp-topic-grid">
-          {learningSections.map((sec) => {
-            const first = sec.chapters[0];
-            if (!first) return null;
-            return (
-              <Link
-                key={sec.title}
-                href={firstHrefOf(sec.folder, first.file)}
-                className="lp-topic-card"
-              >
-                <span className="lp-topic-title">{sec.title}</span>
-                <span className="lp-topic-meta">
-                  {sec.chapters.length}{" "}
-                  {sec.chapters.length === 1 ? "chapter" : "chapters"}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Practice / compiler CTA */}
-      <section className="lp-compiler">
-        <div className="lp-compiler-inner">
-          <div>
-            <h2 className="lp-section-title">Don&apos;t just read — run the code</h2>
-            <p className="lp-section-sub">
-              Every JavaScript example is one click from a live editor. Practice
-              right in your browser with the built-in online compiler — no setup.
+        {/* Hero Article */}
+        <section className="np-hero-article">
+          <div className="np-article-content">
+            <h3 className="np-headline">CRACK YOUR INTERVIEW WITH CONFIDENCE!</h3>
+            <p className="np-author">By The Editors</p>
+            <p className="np-text">
+              <span className="np-dropcap">A</span> structured, no-fluff prep book covering JavaScript, React, Node.js, NestJS, MongoDB, system design, machine coding, DSA, and HR rounds is now available to the public. Every topic is meticulously formatted as <strong>Definition → Explanation → Code → Real-world use → Likely questions</strong>.
             </p>
-            <div className="lp-cta-row">
-              <Link href="/playground" className="lp-btn lp-btn-primary">
-                Open the playground →
-              </Link>
-              <CompilerButton variant="hero" label="Launch compiler ↗" />
+            <p className="np-text">
+              Our reporters have scoured the industry to compile over <strong>200+</strong> Data Structure and Algorithm coding questions, alongside <strong>{totalChapters}</strong> topic chapters across <strong>{learningSections.length}</strong> intensive interview rounds. 
+            </p>
+            <div className="np-cta-box">
+              <Link href="/start" className="np-btn">Start Reading Now →</Link>
             </div>
           </div>
-        </div>
-      </section>
+          <div className="np-article-sidebar">
+             <h4 className="np-sidebar-title">COMPANIES TARGETED</h4>
+             <ul className="np-companies-list">
+               {COMPANIES.map((name) => (
+                 <li key={name}>{name}</li>
+               ))}
+             </ul>
+          </div>
+        </section>
+        
+        <div className="np-hr-thick"></div>
 
-      {/* Final CTA */}
-      <section className="lp-final">
-        <h2 className="lp-section-title">Ready when you are</h2>
-        <p className="lp-section-sub">
-          Jump straight into the dashboard and track your progress — or drop a
-          star to support the project and help others find it.
-        </p>
-        <div className="lp-cta-row lp-cta-center">
-          <Link href="/start" className="lp-btn lp-btn-primary">
-            Open the study dashboard →
-          </Link>
-          <StarButton variant="hero" />
-        </div>
-      </section>
+        {/* Topic Grid */}
+        <section className="np-topics-section">
+          <h3 className="np-headline-sub">INDEX OF SECTIONS</h3>
+          <div className="np-topics-grid">
+            {learningSections.map((sec) => {
+              const first = sec.chapters[0];
+              if (!first) return null;
+              return (
+                <div key={sec.title} className="np-topic-card">
+                  <Link href={firstHrefOf(sec.folder, first.file)} className="np-topic-link">
+                    <h5 className="np-topic-title">{sec.title}</h5>
+                    <span className="np-topic-meta">{sec.chapters.length} {sec.chapters.length === 1 ? "Chapter" : "Chapters"}</span>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
-      <footer className="lp-footer">
-        <span>{SITE_NAME}</span>
-        <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer">
-          View source on GitHub
-        </a>
-      </footer>
+        <div className="np-hr-thick"></div>
+
+        {/* Practice CTA */}
+        <section className="np-practice-section">
+          <h3 className="np-headline" style={{textAlign: "center"}}>PRACTICE RIGHT IN YOUR BROWSER</h3>
+          <p className="np-text" style={{textAlign: "center"}}>
+            Don't just read the ink—run the code! Every JavaScript example is one click from a live editor. No setup required.
+          </p>
+          <div className="np-cta-row">
+            <Link href="/playground" className="np-btn">Open Playground</Link>
+            <a href="https://www.programiz.com/javascript/online-compiler/" target="_blank" rel="noopener noreferrer" className="np-btn">Launch Compiler</a>
+          </div>
+        </section>
+        
+        <footer className="np-footer">
+          <span>{SITE_NAME}</span>
+          <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" style={{color: "inherit", marginLeft: "10px"}}>View on GitHub</a>
+        </footer>
       </div>
     </div>
   );
