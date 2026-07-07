@@ -1,14 +1,27 @@
-# Full-Stack Developer Interview Prep Book
+# 🗞️ JobPrep: The Full-Stack Developer Interview Prep Book
 
-A structured, multi-file preparation guide for the **React.js / Node.js Full-Stack Developer** role at top tech companies.
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-Every concept follows the same pattern:
+> A structured, fully open-source preparation guide and interactive platform for the **React.js / Node.js Full-Stack Developer** role, styled as a vintage broadsheet newspaper.
 
+### 🌟 About This Repository
+
+**JobPrep** is more than just a markdown repository; it is a fully functional Next.js 15 application built to serve as the ultimate interview companion. It contains deep, highly-curated knowledge tailored for top tech companies (FAANG and leading Service Providers).
+
+**Key Features:**
+- **Comprehensive Curriculum:** Deep dives into JavaScript, React, Node.js, NestJS, and MongoDB.
+- **System Design & Architecture:** Real-world examples of microservices, database indexing, and scaling.
+- **Company-Specific Tracks:** Exact questions from recent hiring cycles at 23 companies including Google, Meta, Amazon, TCS, Infosys, and more.
+- **200+ DSA Questions:** An interactive Data Structures and Algorithms tracking checklist.
+- **SEO & Performance:** Fully static generated (SSG), mobile-responsive, JSON-LD schema injected, and blazing fast.
+
+Every technical concept across the curriculum strictly follows the same pedagogical pattern:
 > **Definition → Explanation → Code Example → Real-World Use → Likely Interview Questions**
 
 ---
 
-## 🎯 How to Use
+## 🎯 How to Use This Book
 
 ### One week out
 - Master **JavaScript**, **React**, and **Node.js**.
