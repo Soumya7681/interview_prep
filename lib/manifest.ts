@@ -160,6 +160,23 @@ export const MANIFEST: Section[] = [
       { num: "76", file: "10-appendix.md",       title: "Documents & Q&A" },
     ],
   },
+  {
+    title: "AI / LLM Engineering",
+    folder: "13-ai",
+    chapters: [
+      { num: "77", file: "01-llm-fundamentals.md",         title: "LLM Fundamentals" },
+      { num: "78", file: "02-prompt-engineering.md",        title: "Prompt Engineering" },
+      { num: "79", file: "03-embeddings-vector-search.md",  title: "Embeddings & Vector Search" },
+      { num: "80", file: "04-rag.md",                       title: "RAG Pipeline" },
+      { num: "81", file: "05-tool-calling.md",              title: "Tool / Function Calling" },
+      { num: "82", file: "06-ai-agents.md",                 title: "AI Agents & MCP" },
+      { num: "83", file: "07-streaming-responses.md",       title: "Streaming Responses" },
+      { num: "84", file: "08-rag-vs-finetuning.md",         title: "RAG vs Fine-Tuning" },
+      { num: "85", file: "09-evaluation-hallucination.md",  title: "Evaluation & Hallucination" },
+      { num: "86", file: "10-ai-security.md",               title: "AI Security" },
+      { num: "87", file: "11-cost-latency-optimization.md", title: "Cost & Latency Optimization" },
+    ],
+  },
 ];
 
 // The DSA chapter is rendered as an interactive checklist instead of static

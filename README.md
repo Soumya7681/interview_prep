@@ -11,6 +11,7 @@
 
 **Key Features:**
 - **Comprehensive Curriculum:** Deep dives into JavaScript, React, Node.js, NestJS, and MongoDB.
+- **AI / LLM Engineering:** 11 chapters on LLM fundamentals, prompt engineering, embeddings, RAG, tool calling, agents, streaming, evals, AI security, and cost optimization.
 - **System Design & Architecture:** Real-world examples of microservices, database indexing, and scaling.
 - **Company-Specific Tracks:** Exact questions from recent hiring cycles at 23 companies including Google, Meta, Amazon, TCS, Infosys, and more.
 - **200+ DSA Questions:** An interactive Data Structures and Algorithms tracking checklist.

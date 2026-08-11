@@ -100,7 +100,7 @@ Keep it short. The point is to stay top of mind without being pushy.
 
 ---
 
-[← Revision Sheet](09-revision-sheet.md) | [Index](README.md)
+[← Revision Sheet](09-revision-sheet.md) | [Index](README.md) | [Next: AI / LLM Engineering →](13-ai/01-llm-fundamentals.md)
 
 > **Final reminder:** You already have the skills. The interview is a test of whether you can *show* them clearly under pressure. Get sleep. Eat. Drink water. Walk in tall.
 >
