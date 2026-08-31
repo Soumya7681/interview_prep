@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Balsamiq_Sans,
+  Geist,
+  Geist_Mono,
+  Merriweather,
+  Playfair_Display,
+} from "next/font/google";
 import "./globals.css";
 import Shell from "@/components/Shell";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SEO_KEYWORDS } from "@/lib/site";
@@ -12,6 +18,31 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Loaded here rather than through an @import in globals.css: the build strips
+// remote @import rules, so those faces were silently falling back to Georgia.
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "700", "900"],
+  display: "swap",
+});
+
+const merriweather = Merriweather({
+  variable: "--font-merriweather",
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  display: "swap",
+});
+
+const balsamiq = Balsamiq_Sans({
+  variable: "--font-balsamiq",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -62,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${merriweather.variable} ${balsamiq.variable}`}
       suppressHydrationWarning
     >
       <head>

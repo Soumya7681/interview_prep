@@ -12,6 +12,42 @@ import {
 import StarButton from "@/components/StarButton";
 import CompilerButton from "@/components/CompilerButton";
 
+/**
+ * The landing-page FAQ. The visible list and the FAQPage JSON-LD are both
+ * rendered from this array, so the structured data cannot drift from the copy
+ * a reader actually sees — which is what Google penalises.
+ */
+const FAQS: Array<{ q: string; a: string }> = [
+  {
+    q: "Is this full-stack interview prep really free?",
+    a: "Yes. The entire curriculum, including over 200+ Data Structures & Algorithms questions, system design guides, and React/Node.js cheat sheets, is 100% open-source and free forever.",
+  },
+  {
+    q: "Which companies are these questions meant for?",
+    a: "Our curriculum is meticulously categorized into FAANG (Google, Amazon, Meta, Microsoft, Oracle) and top Service companies (TCS, Infosys, Wipro, Accenture). We track the exact questions asked in their most recent 2026 hiring cycles.",
+  },
+  {
+    q: "Do I need to know both React and NestJS?",
+    a: "While the book heavily features React on the frontend and Node.js/NestJS on the backend, the core architectural concepts (System Design, Microservices, Authentication, Database Indexing) apply universally across any technology stack.",
+  },
+  {
+    q: "What are the career roadmaps?",
+    a: `Stage-by-stage study maps for the roles hiring right now — ${TRACKS.length} tracks covering ${totalNodeCount()} topics, from AI and ML engineering to data, MLOps, and forward deployed engineering. Each one tells you what to learn, in what order, and what to build to prove it.`,
+  },
+  {
+    q: "Do I need an account, and how is my progress saved?",
+    a: "There is no account and no sign-up. Ticked topics and roadmap progress are stored in your own browser using localStorage, so nothing is uploaded and nothing is tracked. Clearing your browser data resets your progress, and it does not follow you to another device.",
+  },
+  {
+    q: "Can I run the code examples?",
+    a: "Yes. The JavaScript Playground runs your code directly in your browser inside a sandboxed frame — no server, no account, and your code never leaves your machine. Use it to tweak any example from the book and see the console output immediately.",
+  },
+  {
+    q: "How do I report an error or contribute?",
+    a: "The whole book is a public GitHub repository. Open an issue for anything that looks wrong or out of date, or send a pull request — corrections, new questions, and better explanations are all welcome.",
+  },
+];
+
 export const metadata: Metadata = {
   title: "Full-Stack Developer Interview Prep — React, Node.js, MongoDB & DSA",
   description: SITE_TAGLINE,
@@ -192,53 +228,14 @@ export default function LandingPage() {
         {/* SEO FAQ Section */}
         <section className="np-topics-section">
           <h3 className="np-headline-sub">FREQUENTLY ASKED QUESTIONS</h3>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', margin: '0 auto', maxWidth: '800px'}}>
-            
-            <div style={{borderBottom: '1px dotted var(--text-muted)', paddingBottom: '10px'}}>
-              <h4 style={{fontFamily: "'Playfair Display', serif", fontSize: '20px', margin: '0 0 5px 0'}}>Is this full-stack interview prep really free?</h4>
-              <p className="np-text" style={{fontSize: '16px', margin: 0}}>Yes. The entire curriculum, including over 200+ Data Structures & Algorithms questions, system design guides, and React/Node.js cheat sheets, is 100% open-source and free forever.</p>
-            </div>
-
-            <div style={{borderBottom: '1px dotted var(--text-muted)', paddingBottom: '10px'}}>
-              <h4 style={{fontFamily: "'Playfair Display', serif", fontSize: '20px', margin: '0 0 5px 0'}}>Which companies are these questions meant for?</h4>
-              <p className="np-text" style={{fontSize: '16px', margin: 0}}>Our curriculum is meticulously categorized into FAANG (Google, Amazon, Meta, Microsoft, Oracle) and top Service companies (TCS, Infosys, Wipro, Accenture). We track the exact questions asked in their most recent 2026 hiring cycles.</p>
-            </div>
-
-            <div style={{borderBottom: '1px dotted var(--text-muted)', paddingBottom: '10px'}}>
-              <h4 style={{fontFamily: "'Playfair Display', serif", fontSize: '20px', margin: '0 0 5px 0'}}>Do I need to know both React and NestJS?</h4>
-              <p className="np-text" style={{fontSize: '16px', margin: 0}}>While the book heavily features React on the frontend and Node.js/NestJS on the backend, the core architectural concepts (System Design, Microservices, Authentication, Database Indexing) apply universally across any technology stack.</p>
-            </div>
-
-          </div>
-        </section>
-
-        <div className="np-hr-thick"></div>
-
-        {/* Testimonials */}
-        <section className="np-topics-section" style={{textAlign: 'center'}}>
-          <h3 className="np-headline-sub">LETTERS TO THE EDITOR</h3>
-          <div className="np-topics-grid">
-            <blockquote style={{border: '1px solid var(--border)', padding: '20px', fontStyle: 'italic', background: 'var(--bg-subtle)'}}>
-              "The most well-organized compendium of system design knowledge I have ever encountered. I secured an E5 role thanks to this."
-              <br/><br/>
-              <strong>— S. Williams, Staff Engineer</strong>
-            </blockquote>
-            <blockquote style={{border: '1px solid var(--border)', padding: '20px', fontStyle: 'italic', background: 'var(--bg-subtle)'}}>
-              "Finally, a resource that bridges the gap between generic LeetCode and actual, real-world backend architecture."
-              <br/><br/>
-              <strong>— R. Gupta, Backend Lead</strong>
-            </blockquote>
-            <blockquote style={{border: '1px solid var(--border)', padding: '20px', fontStyle: 'italic', background: 'var(--bg-subtle)'}}>
-              "The 2026 AI integration trends section was exactly what my panel grilled me on. Absolutely vital reading."
-              <br/><br/>
-              <strong>— M. Chen, Full-Stack Dev</strong>
-            </blockquote>
-            <blockquote style={{border: '1px solid var(--border)', padding: '20px', fontStyle: 'italic', background: 'var(--bg-subtle)', gridColumn: '1 / -1', marginTop: '10px'}}>
-              "Give me six hours to chop down a tree and I will spend the first four sharpening the axe. Preparation is the undeniable key to victory."
-              <br/><br/>
-              <strong>— Abraham Lincoln (Motivational Quote of the Day)</strong>
-            </blockquote>
-          </div>
+          <dl className="np-faq">
+            {FAQS.map((item) => (
+              <div key={item.q} className="np-faq-item">
+                <dt className="np-faq-q">{item.q}</dt>
+                <dd className="np-faq-a">{item.a}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         <div className="np-hr"></div>
@@ -250,32 +247,11 @@ export default function LandingPage() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "Is this full-stack interview prep really free?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. The entire curriculum, including over 200+ Data Structures & Algorithms questions, system design guides, and React/Node.js cheat sheets, is 100% open-source and free forever."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Which companies are these questions meant for?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Our curriculum is meticulously categorized into FAANG (Google, Amazon, Meta, Microsoft, Oracle) and top Service companies (TCS, Infosys, Wipro, Accenture). We track the exact questions asked in their most recent 2026 hiring cycles."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Do I need to know both React and NestJS?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "While the book heavily features React on the frontend and Node.js/NestJS on the backend, the core architectural concepts (System Design, Microservices, Authentication, Database Indexing) apply universally across any technology stack."
-                  }
-                }
-              ]
+              "mainEntity": FAQS.map((item) => ({
+                "@type": "Question",
+                "name": item.q,
+                "acceptedAnswer": { "@type": "Answer", "text": item.a },
+              })),
             })
           }}
         />
