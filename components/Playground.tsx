@@ -297,7 +297,10 @@ export default function Playground() {
 
   return (
     <div className="pg">
-      <div className="pg-pane">
+      <section className="pg-pane" aria-labelledby="pg-editor-heading">
+        <h2 id="pg-editor-heading" className="sr-only">
+          Code editor
+        </h2>
         <div className="pg-bar">
           <label className="pg-pick">
             <span className="pg-bar-label">Example</span>
@@ -345,11 +348,11 @@ export default function Playground() {
           autoCorrect="off"
           aria-label="JavaScript editor"
         />
-      </div>
+      </section>
 
-      <div className="pg-pane">
+      <section className="pg-pane">
         <div className="pg-bar">
-          <span className="pg-bar-label">Console</span>
+          <h2 className="pg-bar-label">Console</h2>
           <div className="pg-bar-actions">
             <span className={`pg-status${errorCount > 0 ? " is-error" : ""}`}>{status}</span>
             <button type="button" className="pg-btn" onClick={() => setLines([])}>
@@ -373,7 +376,7 @@ export default function Playground() {
             ))
           )}
         </div>
-      </div>
+      </section>
 
       {/* The sandbox. Offscreen rather than display:none so it reliably runs. */}
       <iframe

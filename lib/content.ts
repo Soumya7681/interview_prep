@@ -33,10 +33,29 @@ const renderer = {
 };
 marked.use({ renderer });
 
+/**
+ * The site is exported with `trailingSlash: true`, so every internal URL the
+ * host serves ends in a slash. Markdown authors write "/13-ai/04-rag" and
+ * "/readme", which land on a redirect (or a 404 for /readme, which is served
+ * at /start). Crawlers then report those links as broken or as canonicalised
+ * to a different URL, so normalise them at render time.
+ */
+function normaliseInternal(path: string): string {
+  const [, pathname, suffix] = path.match(/^([^#?]*)([\s\S]*)$/) as RegExpMatchArray;
+  const base = pathname.replace(/\/+$/, "");
+  if (base === "") return "/" + suffix;
+  // README is published at /start, matching slugHref() used across the app.
+  if (base.toLowerCase() === "/readme") return "/start/" + suffix;
+  return base + "/" + suffix;
+}
+
 function rewriteHref(href: string, currentPath: string): string {
   if (!href) return href;
   if (/^https?:/i.test(href)) return href;
-  if (href.startsWith("#")) return href;
+  if (href.startsWith("#") || href.startsWith("mailto:")) return href;
+
+  // Already an absolute site path: normalise rather than resolve.
+  if (href.startsWith("/")) return normaliseInternal(href);
 
   // Resolve relative path against current file's folder
   const baseSegments = currentPath.split("/").slice(0, -1);
@@ -52,7 +71,7 @@ function rewriteHref(href: string, currentPath: string): string {
   const match = FLAT.find((f) => f.path.toLowerCase() === resolved.toLowerCase());
   if (!match) return href;
 
-  return "/" + match.slug.join("/");
+  return normaliseInternal("/" + match.slug.join("/"));
 }
 
 function rewriteLinks(html: string, currentPath: string): string {

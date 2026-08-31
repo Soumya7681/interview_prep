@@ -570,6 +570,8 @@ body.has-drawer-open { overflow: hidden; }
 .dsa-reset:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
 .dsa-reset:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* Wraps the accordion button; carries no visual style of its own. */
+.dsa-cat-heading { margin: 0; font: inherit; }
 .dsa-cat {
   border: 1px solid var(--border);
   border-radius: 11px;
@@ -1342,6 +1344,19 @@ body.has-drawer-open { overflow: hidden; }
   margin: 0;
 }
 .pg-sub strong { color: var(--text); }
+/* Visually hidden, but still in the accessibility tree and document outline. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Two stacked panes: editor over console, side by side when there is room. */
 .pg {
   display: grid;
@@ -1368,7 +1383,9 @@ body.has-drawer-open { overflow: hidden; }
   background: var(--bg-subtle);
 }
 .pg-bar-label {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  margin: 0;
+  font-weight: 400;
+  font-family: var(--font-mono) !important;
   font-size: 10px;
   letter-spacing: .07em;
   text-transform: uppercase;

@@ -1,11 +1,37 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { FLAT, findBySlug, DSA_PATH } from "@/lib/manifest";
+import { FLAT, findBySlug, DSA_PATH, type FlatChapter } from "@/lib/manifest";
 import { loadChapterHtml, pagerFor } from "@/lib/content";
 import { loadDsaContent } from "@/lib/dsa";
 import Pager from "@/components/Pager";
 import ReadAloud from "@/components/ReadAloud";
 import DsaChecklist from "@/components/DsaChecklist";
+
+/**
+ * Chapter titles in the manifest are bare nouns ("Scope", "TCS"), which produced
+ * titles like "TCS · Prep Book" — far under the pixel width Google allows and
+ * carrying no keyword. Build a descriptive title from the section context, with
+ * a length guard so the long section names do not overflow the SERP.
+ */
+function seoTitle(entry: FlatChapter): string {
+  const name = entry.title.replace(/`/g, "");
+  switch (entry.section) {
+    case "Company Specific Questions":
+      return `${name} Interview Questions & Answers`;
+    case "HR & Behavioral":
+      return `${name} — HR Interview Questions`;
+    case "Career Roadmaps":
+      return `${name} — Career Roadmap Guide`;
+    case "Getting Started":
+    case "Reference":
+    case "DSA & Coding":
+      return name;
+    default: {
+      const withSection = `${name} in ${entry.section} — Interview Questions`;
+      return withSection.length <= 58 ? withSection : `${name} — Interview Questions`;
+    }
+  }
+}
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
@@ -15,8 +41,11 @@ export async function generateMetadata(
   if (!entry) return {};
 
   return {
-    title: entry.title,
+    title: seoTitle(entry),
     description: `Deep dive into ${entry.title}: Master real-world full-stack concepts, architecture, and coding questions to crack your next interview.`,
+    // Every chapter page was shipping without a canonical. Next appends the
+    // trailing slash to match `trailingSlash: true`.
+    alternates: { canonical: `/${entry.slug.join("/")}` },
   };
 }
 

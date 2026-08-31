@@ -1,7 +1,7 @@
 # 🗞️ JobPrep: The Full-Stack Developer Interview Prep Book
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+<img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version 1.0.0" width="90" height="20">
+<img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License MIT" width="78" height="20">
 
 > A structured, fully open-source preparation guide and interactive platform for the **React.js / Node.js Full-Stack Developer** role, styled as a vintage broadsheet newspaper.
 

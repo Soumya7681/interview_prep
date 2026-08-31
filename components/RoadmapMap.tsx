@@ -136,7 +136,7 @@ export default function RoadmapMap({ track }: { track: RoadmapTrack }) {
 
       <section className="rm-prereq" aria-labelledby="rm-prereq-title">
         <h2 id="rm-prereq-title" className="rm-prereq-label">
-          Before stage 1
+          Before you start {track.shortTitle}
         </h2>
         <ul className="rm-chiplist">
           {track.prerequisites.map((p) => (
@@ -166,7 +166,7 @@ export default function RoadmapMap({ track }: { track: RoadmapTrack }) {
 
       <section className="rm-after" aria-labelledby="rm-after-title">
         <h2 id="rm-after-title" className="rm-section-title">
-          Tools on the CV
+          {track.shortTitle} tools on your CV
         </h2>
         <ul className="rm-chiplist">
           {track.tools.map((t) => (
@@ -177,7 +177,7 @@ export default function RoadmapMap({ track }: { track: RoadmapTrack }) {
         </ul>
 
         <h2 className="rm-section-title rm-section-title-spaced">
-          What employers ask to see
+          What {track.shortTitle} employers ask to see
         </h2>
         <ul className="rm-proof">
           {track.proofOfWork.map((p) => (

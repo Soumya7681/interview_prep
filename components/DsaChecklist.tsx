@@ -96,6 +96,9 @@ export default function DsaChecklist({
 
         return (
           <section key={cat.title} className="dsa-cat">
+            {/* The heading wraps the control, per the ARIA accordion pattern.
+                It also gives the page the <h2> section structure it lacked. */}
+            <h2 className="dsa-cat-heading">
             <button
               type="button"
               className="dsa-cat-head"
@@ -113,6 +116,7 @@ export default function DsaChecklist({
                 <ProgressBar done={catDone} total={cat.items.length} />
               </span>
             </button>
+            </h2>
 
             {!isCollapsed && (
               <ul className="dsa-list">

@@ -44,13 +44,13 @@ As a Full Stack Developer, Deloitte expects you to have a deep understanding of 
 ### Detailed Backend Questions (Node.js / Express / DB)
 1. **Event Loop in Node.js**
    - *Question*: Explain the phases of the Node.js Event Loop. What is the difference between `process.nextTick()` and `setImmediate()`?
-   - *Resource*: [Node.js Docs - Event Loop](https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/)
+   - *Resource*: [Node.js Docs - Event Loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick)
 2. **Database Indexing & Optimization**
    - *Question*: How do database indexes work under the hood (B-Trees)? When should you NOT use an index?
    - *Resource*: [GeeksForGeeks - Indexing in Databases](https://www.geeksforgeeks.org/indexing-in-databases-set-1/)
 3. **JWT vs Session Authentication**
    - *Question*: Explain the pros and cons of using JSON Web Tokens (JWT) vs stateful Session cookies for authentication in a distributed system.
-   - *Resource*: [Auth0 - JWT vs Sessions](https://auth0.com/blog/json-web-token-jwt-vs-session/)
+   - *Resource*: [Auth0 - JWT vs Sessions](https://auth0.com/docs/secure/tokens/json-web-tokens)
 4. **API Rate Limiting**
    - *Question*: How would you implement rate limiting for a REST API using Redis?
    - *Resource*: [Redis - Rate Limiting Pattern](https://redis.com/glossary/rate-limiting/)

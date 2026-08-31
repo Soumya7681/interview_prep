@@ -21,8 +21,13 @@ export async function generateMetadata({
     trackNodeIds(track).length
   } topics, prerequisites, tools and portfolio projects.`;
 
+  // "AI Engineer Roadmap · Prep Book" was ~205px — under the width Google
+  // allows. Add the value proposition, with a guard for the longer role names.
+  const long = `${track.title} Roadmap — Skills, Stages & Projects`;
+  const title = long.length <= 56 ? long : `${track.title} Roadmap & Study Plan`;
+
   return {
-    title: `${track.title} Roadmap`,
+    title,
     description,
     alternates: { canonical: `/roadmaps/${track.slug}/` },
     openGraph: {

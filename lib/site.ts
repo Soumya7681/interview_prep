@@ -3,7 +3,9 @@
 export const SITE_URL = "https://jobprep.soureetech.com";
 
 export const GITHUB_REPO = "https://github.com/Soumya7681/interview_prep";
-export const GITHUB_STARS_URL = `${GITHUB_REPO}/stargazers`;
+// Repo root rather than /stargazers: that path returns 404 to non-browser
+// clients, which crawlers report as a broken link. Starring happens here anyway.
+export const GITHUB_STARS_URL = GITHUB_REPO;
 
 // Online code playground used across the site (navbar, playground page,
 // per-code-block "Run in compiler" links, and the landing CTA).
