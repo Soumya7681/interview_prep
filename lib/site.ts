@@ -10,6 +10,9 @@ export const GITHUB_STARS_URL = `${GITHUB_REPO}/stargazers`;
 export const COMPILER_NAME = "Programiz JavaScript Compiler";
 export const COMPILER_URL = "https://www.programiz.com/javascript/online-compiler/";
 
+/** Google AdSense publisher id. Used by both the verification meta tag and the ad script. */
+export const ADSENSE_CLIENT = "ca-pub-2142314669046516";
+
 /** Product name. Shown in the app header and as the landing-page masthead. */
 export const BRAND = "JobPrep";
 

@@ -6,9 +6,16 @@ import {
   Merriweather,
   Playfair_Display,
 } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Shell from "@/components/Shell";
-import { SITE_URL, SITE_NAME, SITE_TAGLINE, SEO_KEYWORDS } from "@/lib/site";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SEO_KEYWORDS,
+  ADSENSE_CLIENT,
+} from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,7 +66,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   // Site verification for AdSense. Next renders this into <head> as
   // <meta name="google-adsense-account" content="...">.
-  other: { "google-adsense-account": "ca-pub-2142314669046516" },
+  other: { "google-adsense-account": ADSENSE_CLIENT },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
@@ -104,6 +111,17 @@ export default function RootLayout({
       </head>
       <body>
         <Shell>{children}</Shell>
+
+        {/* AdSense loader. next/script rather than a raw tag so Next controls
+            when it loads: afterInteractive keeps it off the critical path, so
+            it cannot delay first paint or hurt Core Web Vitals. */}
+        <Script
+          id="adsbygoogle-init"
+          async
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+        />
       </body>
     </html>
   );
