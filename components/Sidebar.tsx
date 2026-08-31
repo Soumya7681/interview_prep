@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MANIFEST } from "@/lib/manifest";
 import { COMPILER_URL } from "@/lib/site";
+import { TRACKS } from "@/lib/roadmaps";
 
 function slugHref(folder: string, file: string) {
   const base = file.replace(/\.md$/, "").toLowerCase();
@@ -66,6 +67,17 @@ export default function Sidebar({
   const showPractice =
     !q || ["practice", "playground", "compiler", "javascript", "js"].some((k) => k.includes(q) || q.includes(k));
 
+  // The roadmap area is not part of MANIFEST (it is data-driven, not markdown),
+  // so it gets its own searchable group.
+  const roadmapMatches = !q
+    ? TRACKS
+    : TRACKS.filter(
+        (t) =>
+          t.title.toLowerCase().includes(q) ||
+          t.shortTitle.toLowerCase().includes(q) ||
+          "roadmap career".includes(q),
+      );
+
   const sections = MANIFEST.map((sec) => {
     const matched = sec.chapters.filter(
       (ch) =>
@@ -90,6 +102,43 @@ export default function Sidebar({
           spellCheck={false}
           autoComplete="off"
         />
+
+        {roadmapMatches.length > 0 && (
+          <div className="section-group">
+            <div className="section-label">
+              <span style={{ display: "flex", alignItems: "center" }}>
+                Roadmaps
+                <span className="section-badge" style={{ marginLeft: "6px" }}>
+                  {roadmapMatches.length}
+                </span>
+              </span>
+            </div>
+            <Link
+              href="/roadmaps"
+              className={`chap-link ${
+                pathname === "/roadmaps" || pathname === "/roadmaps/" ? "is-active" : ""
+              }`}
+            >
+              <span className="chap-num">◈</span>
+              <span>All roadmaps</span>
+            </Link>
+            {roadmapMatches.map((track) => {
+              const href = `/roadmaps/${track.slug}`;
+              return (
+                <Link
+                  key={track.slug}
+                  href={href}
+                  className={`chap-link ${
+                    pathname === href || pathname === `${href}/` ? "is-active" : ""
+                  }`}
+                >
+                  <span className="chap-num">{track.mark}</span>
+                  <span>{track.shortTitle}</span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
         {showPractice && (
           <div className="section-group">

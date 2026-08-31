@@ -1703,3 +1703,512 @@ body.has-drawer-open { overflow: hidden; }
   padding-top: 20px;
 }
 :root[data-theme="dark"] .np-footer { border-color: #e0dcd3; }
+
+/* ==========================================================================
+   Career roadmaps — dedicated /roadmaps area
+   Vertical spine of stages with nodes branching off it, plus a detail panel.
+   Uses the same ink/paper tokens as the rest of the book so it reads as one
+   publication, not an embedded app.
+   ========================================================================== */
+
+/* ---------- Index (/roadmaps) ---------- */
+.rmi-head { margin-bottom: 22px; }
+.rmi-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 34px;
+  line-height: 1.15;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+.rmi-sub { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-soft); max-width: 68ch; }
+
+.rmi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.rmi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  text-decoration: none;
+  color: inherit;
+}
+.rmi-card:hover { border-color: var(--accent); }
+.rmi-card-head { display: flex; align-items: flex-start; gap: 12px; }
+.rmi-card-heading { min-width: 0; }
+.rmi-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 19px;
+  margin: 0 0 3px;
+  color: var(--text);
+}
+.rmi-card-meta {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rmi-card-tagline { margin: 0; flex: 1; font-size: 14px; line-height: 1.55; color: var(--text-soft); }
+.rmi-card-foot { display: flex; align-items: center; gap: 10px; }
+.rmi-card-foot .pbar { flex: 1; }
+.rmi-card-pct {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 34px;
+  text-align: right;
+}
+.rmi-reset { margin-top: 16px; font-size: 13px; color: var(--text-muted); }
+.rmi-reset-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.rmi-rules { margin-top: 30px; }
+.rmi-guide-link { margin-top: 14px; font-size: 14px; color: var(--text-soft); }
+.rmi-guide-link a { color: var(--accent); }
+
+/* ---------- Track header ---------- */
+.rm-head { margin-bottom: 24px; }
+.rm-head-main { display: flex; align-items: flex-start; gap: 14px; }
+.rm-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .06em;
+}
+.rmi-mark { width: 38px; height: 38px; font-size: 13px; }
+.rm-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 0 0 6px;
+  color: var(--text);
+}
+.rm-tagline { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-soft); }
+
+.rm-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-subtle);
+}
+.rm-facts dt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+.rm-facts dd { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text); }
+
+.rm-progress { margin-top: 16px; }
+.rm-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+}
+.rm-progress-pct {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+  color: var(--accent);
+}
+.rm-market {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-subtle);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+.rm-head-links { display: flex; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.rm-btn { text-decoration: none; }
+.rm-link-quiet { font-size: 13px; color: var(--text-muted); }
+
+.rm-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+.rm-section-title-spaced { margin-top: 26px; }
+
+.rm-prereq { margin: 26px 0; }
+.rm-chiplist { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; }
+.rm-chip {
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: 13px;
+  color: var(--text-soft);
+  background: var(--bg-elev);
+}
+.rm-chip-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+/* ---------- The map ---------- */
+.rm-map { position: relative; margin: 30px 0 10px; }
+.rm-stage { position: relative; padding: 0 0 26px 0; }
+.rm-stage-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+}
+.rm-stage-headtext { flex: 1; min-width: 0; }
+.rm-stage-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: var(--bg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 700;
+}
+.rm-stage-num.is-complete { background: var(--accent); color: var(--bg); }
+.rm-stage-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 21px;
+  margin: 0 0 3px;
+  color: var(--text);
+}
+.rm-stage-meta {
+  margin: 0 0 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rm-stage-goal { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-soft); }
+.rm-stage-bulk {
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.rm-stage-bulk:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Nodes hang off a central spine, alternating sides on wide screens. */
+.rm-nodes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+/* One dashed spine runs the height of the map; stage cards sit on top of it. */
+.rm-map::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 14px;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--border) 0 6px,
+    transparent 6px 12px
+  );
+}
+.rm-stage-head,
+.rm-stage-build { position: relative; }
+.rm-node-row {
+  position: relative;
+  display: flex;
+  padding: 7px 0;
+}
+.rm-node-row.is-left { justify-content: flex-end; padding-right: calc(50% + 26px); }
+.rm-node-row.is-right { justify-content: flex-start; padding-left: calc(50% + 26px); }
+/* Connector from the spine to each node. */
+.rm-node-row::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 1px;
+  background: var(--border);
+}
+.rm-node-row.is-left::after { right: 50%; }
+.rm-node-row.is-right::after { left: 50%; }
+
+.rm-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  text-align: left;
+  padding: 8px 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+.rm-node:hover { border-color: var(--accent); }
+.rm-node.is-active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.rm-node.is-recommended { border-style: dashed; }
+.rm-node.is-optional { border-style: dashed; opacity: .82; }
+.rm-node.is-done { background: var(--accent-soft); border-color: var(--accent); }
+.rm-node-label { min-width: 0; }
+.rm-node-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--accent);
+}
+.rm-node.is-done .rm-node-tick { border-color: var(--accent); }
+.rm-node-kind {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.rm-stage-build {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.rm-stage-build-tag {
+  display: inline-block;
+  margin-right: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.rm-spine-end { text-align: center; color: var(--border); font-size: 14px; }
+
+.rm-after { margin-top: 30px; }
+.rm-proof { margin: 0; padding-left: 20px; list-style: disc; }
+.rm-proof li { font-size: 14px; line-height: 1.65; color: var(--text-soft); margin-bottom: 5px; }
+.rm-updated { margin-top: 22px; font-size: 12px; color: var(--text-muted); }
+
+/* ---------- Node detail panel ---------- */
+.rm-detail-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, .35);
+}
+.rm-detail {
+  position: fixed;
+  z-index: 41;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100%);
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--bg-elev);
+  border-left: 1px solid var(--border);
+}
+.rm-detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.rm-detail-stage {
+  margin: 0 0 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rm-detail-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  margin: 0;
+  color: var(--text);
+}
+.rm-detail-close {
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font: inherit;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.rm-detail-close:hover { border-color: var(--accent); color: var(--accent); }
+.rm-detail-toggle {
+  margin-top: 14px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg);
+  font: inherit;
+  font-size: 14px;
+  color: var(--accent);
+  cursor: pointer;
+}
+.rm-detail-toggle.is-done { background: var(--accent); color: var(--bg); }
+.rm-detail-summary { margin: 16px 0 0; font-size: 14px; line-height: 1.65; color: var(--text-soft); }
+.rm-detail-label {
+  margin: 20px 0 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rm-detail-topics { margin: 0; padding-left: 18px; list-style: disc; }
+.rm-detail-topics li { font-size: 14px; line-height: 1.6; color: var(--text-soft); margin-bottom: 5px; }
+.rm-detail-ref { font-size: 14px; color: var(--accent); }
+.rm-detail-links { list-style: none; margin: 0; padding: 0; }
+.rm-detail-links a { font-size: 14px; color: var(--accent); }
+
+/* ---------- Landing-page roadmap strip ---------- */
+.np-roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.np-roadmap-card {
+  display: block;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  text-decoration: none;
+  color: inherit;
+}
+.np-roadmap-card:hover { border-color: var(--accent); }
+.np-roadmap-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17px;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+.np-roadmap-meta {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---------- Narrow screens: single column, sheet-style detail ---------- */
+@media (max-width: 720px) {
+  .rm-map::before { left: 13px; margin-left: 0; }
+  .rm-node-row,
+  .rm-node-row.is-left,
+  .rm-node-row.is-right {
+    justify-content: flex-start;
+    padding-left: 38px;
+    padding-right: 0;
+  }
+  .rm-node-row::after,
+  .rm-node-row.is-left::after,
+  .rm-node-row.is-right::after { left: 13px; right: auto; width: 24px; }
+  .rm-detail {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 82vh;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 12px 12px 0 0;
+  }
+  .rm-stage-head { flex-wrap: wrap; }
+  .rm-stage-bulk { margin-left: 42px; }
+  .rmi-title { font-size: 28px; }
+  .rm-title { font-size: 25px; }
+}
+
+/* Header entry point to the roadmap area — matches the compiler/star buttons. */
+.rm-header-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.rm-header-btn svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
+.rm-header-btn:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 859px) {
+  .rm-header-btn span { display: none; }
+  .rm-header-btn { padding: 0; width: 38px; justify-content: center; }
+}

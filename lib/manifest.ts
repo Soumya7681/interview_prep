@@ -177,6 +177,19 @@ export const MANIFEST: Section[] = [
       { num: "87", file: "11-cost-latency-optimization.md", title: "Cost & Latency Optimization" },
     ],
   },
+  {
+    title: "Career Roadmaps",
+    folder: "14-roadmaps",
+    chapters: [
+      { num: "88", file: "01-how-to-use-these-roadmaps.md",  title: "How to Use These Roadmaps" },
+      { num: "89", file: "02-ai-engineer.md",                title: "AI Engineer" },
+      { num: "90", file: "03-ml-engineer.md",                title: "ML Engineer" },
+      { num: "91", file: "04-prompt-engineer.md",            title: "Prompt Engineer" },
+      { num: "92", file: "05-forward-deployed-engineer.md",  title: "Forward Deployed Engineer" },
+      { num: "93", file: "06-data-engineer.md",              title: "Data Engineer" },
+      { num: "94", file: "07-mlops-engineer.md",             title: "MLOps / AI Platform" },
+    ],
+  },
 ];
 
 // The DSA chapter is rendered as an interactive checklist instead of static

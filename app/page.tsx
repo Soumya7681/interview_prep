@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MANIFEST, FLAT } from "@/lib/manifest";
+import { TRACKS, totalNodeCount } from "@/lib/roadmaps";
 import {
   COMPANIES,
   SITE_NAME,
@@ -46,7 +47,7 @@ export default function LandingPage() {
     name: SITE_NAME,
     description: SITE_TAGLINE,
     educationalLevel: "Professional",
-    teaches: learningSections.map((s) => s.title),
+    teaches: [...learningSections.map((s) => s.title), ...TRACKS.map((t) => `${t.title} roadmap`)],
     isAccessibleForFree: true,
     keywords: SEO_KEYWORDS.join(", "),
     learningResourceType: "Interview preparation guide",
@@ -127,6 +128,31 @@ export default function LandingPage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <div className="np-hr-thick"></div>
+
+        {/* Career Roadmaps */}
+        <section className="np-topics-section">
+          <h3 className="np-headline-sub">CAREER ROADMAPS — WHAT TO LEARN NEXT</h3>
+          <p className="np-text" style={{textAlign: "center", maxWidth: "760px", margin: "0 auto"}}>
+            Chasing AI engineering, ML, prompt engineering, FDE, data or MLOps? Each roadmap lays
+            out the stages, the {totalNodeCount()} topics inside them, and the project that proves
+            each stage is done. Tick topics off as you go.
+          </p>
+          <div className="np-roadmap-grid">
+            {TRACKS.map((track) => (
+              <Link key={track.slug} href={`/roadmaps/${track.slug}`} className="np-roadmap-card">
+                <h5 className="np-roadmap-name">{track.shortTitle}</h5>
+                <p className="np-roadmap-meta">
+                  {track.stages.length} stages · {track.timeline}
+                </p>
+              </Link>
+            ))}
+          </div>
+          <div className="np-cta-row">
+            <Link href="/roadmaps" className="np-btn">Open the roadmap area</Link>
           </div>
         </section>
 

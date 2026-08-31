@@ -61,6 +61,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
           <div style={{ flex: 1 }} />
 
+          <Link href="/roadmaps" className="rm-header-btn" aria-label="Career roadmaps">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <circle cx="6" cy="6" r="2.5" />
+              <circle cx="18" cy="18" r="2.5" />
+              <path d="M6 8.5V13a3 3 0 0 0 3 3h6" strokeLinecap="round" />
+            </svg>
+            <span>Roadmaps</span>
+          </Link>
+
           <CompilerButton variant="header" />
           <StarButton variant="header" />
 

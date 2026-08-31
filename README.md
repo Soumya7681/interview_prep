@@ -15,6 +15,7 @@
 - **System Design & Architecture:** Real-world examples of microservices, database indexing, and scaling.
 - **Company-Specific Tracks:** Exact questions from recent hiring cycles at 23 companies including Google, Meta, Amazon, TCS, Infosys, and more.
 - **200+ DSA Questions:** An interactive Data Structures and Algorithms tracking checklist.
+- **Career Roadmaps:** A dedicated `/roadmaps` area with interactive, stage-by-stage maps for six in-demand roles — AI engineer, ML engineer, prompt engineer, forward deployed engineer (FDE), data engineer and MLOps — with per-topic progress tracking and a long-form guide chapter behind each track.
 - **SEO & Performance:** Fully static generated (SSG), mobile-responsive, JSON-LD schema injected, and blazing fast.
 
 Every technical concept across the curriculum strictly follows the same pedagogical pattern:
