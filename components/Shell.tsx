@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import StarButton from "./StarButton";
 import CompilerButton from "./CompilerButton";
+import { BRAND } from "@/lib/site";
 
 export default function Shell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -55,7 +56,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
           <Link href="/" className="brand">
             <span className="brand-mark">JP</span>
-            <span>JobPrep</span>
+            <span>{BRAND}</span>
             <span className="brand-tag desktop-only">full-stack interview</span>
           </Link>
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MANIFEST, FLAT } from "@/lib/manifest";
 import { TRACKS, totalNodeCount } from "@/lib/roadmaps";
 import {
+  BRAND,
   COMPANIES,
   SITE_NAME,
   SITE_TAGLINE,
@@ -105,7 +106,7 @@ export default function LandingPage() {
             <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
             <span>Price: FREE</span>
           </div>
-          <h1 className="np-title">THE DAILY PREP</h1>
+          <h1 className="np-title">{BRAND}</h1>
           <h2 className="np-subtitle">THE MOST COMPREHENSIVE GUIDE FOR FULL-STACK ENGINEERS</h2>
           <div className="np-hr"></div>
         </header>

@@ -10,6 +10,9 @@ export const GITHUB_STARS_URL = `${GITHUB_REPO}/stargazers`;
 export const COMPILER_NAME = "Programiz JavaScript Compiler";
 export const COMPILER_URL = "https://www.programiz.com/javascript/online-compiler/";
 
+/** Product name. Shown in the app header and as the landing-page masthead. */
+export const BRAND = "JobPrep";
+
 export const SITE_NAME = "Full-Stack Interview Prep Book";
 export const SITE_TAGLINE =
   "Free, structured MERN / React + Node.js interview preparation — JavaScript, React, Node.js, NestJS, MongoDB, system design, DSA, and HR rounds.";
