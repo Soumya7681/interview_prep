@@ -14,6 +14,15 @@
  * a node links to a specific chapter via `ref`.
  */
 
+import { WEB_MOBILE_TRACKS } from "./tracks/web-mobile";
+import { PLATFORM_TRACKS } from "./tracks/platform";
+import { SECURITY_TRACKS } from "./tracks/security";
+import { DATA_TRACKS } from "./tracks/data";
+import { AI_ML_TRACKS } from "./tracks/ai-ml";
+import { QUALITY_TRACKS } from "./tracks/quality";
+import { PRODUCT_TRACKS } from "./tracks/product";
+import { EMERGING_TRACKS } from "./tracks/emerging";
+
 /** How essential a node is. Drives the node's colour in the map. */
 export type NodeKind = "core" | "recommended" | "optional";
 
@@ -50,9 +59,12 @@ export type RoadmapStage = {
 export type TrackCategory =
   | "AI & ML"
   | "Data"
+  | "Web & Mobile"
   | "Platform & Infra"
+  | "Security"
+  | "Quality & Testing"
   | "Product & Delivery"
-  | "Web & Mobile";
+  | "Emerging Tech";
 
 export type RoadmapTrack = {
   slug: string;
@@ -72,8 +84,8 @@ export type RoadmapTrack = {
   stages: RoadmapStage[];
   tools: string[];
   proofOfWork: string[];
-  /** Companion long-form chapter. */
-  chapter: { href: string; label: string };
+  /** Companion long-form chapter, when one has been written for this track. */
+  chapter?: { href: string; label: string };
 };
 
 const AI_ENGINEER: RoadmapTrack = {
@@ -1591,6 +1603,14 @@ export const TRACKS: RoadmapTrack[] = [
   FDE,
   DATA_ENGINEER,
   MLOPS,
+  ...WEB_MOBILE_TRACKS,
+  ...PLATFORM_TRACKS,
+  ...SECURITY_TRACKS,
+  ...DATA_TRACKS,
+  ...AI_ML_TRACKS,
+  ...QUALITY_TRACKS,
+  ...PRODUCT_TRACKS,
+  ...EMERGING_TRACKS,
 ];
 
 /** Cross-cutting advice shown on the roadmaps index. */
@@ -1616,9 +1636,12 @@ export function trackNodeIds(track: RoadmapTrack): string[] {
 export const CATEGORY_ORDER: TrackCategory[] = [
   "AI & ML",
   "Data",
-  "Platform & Infra",
-  "Product & Delivery",
   "Web & Mobile",
+  "Platform & Infra",
+  "Security",
+  "Quality & Testing",
+  "Product & Delivery",
+  "Emerging Tech",
 ];
 
 /** Categories that actually have tracks, with counts, for the filter bar. */

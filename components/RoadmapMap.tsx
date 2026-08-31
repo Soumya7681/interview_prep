@@ -122,9 +122,12 @@ export default function RoadmapMap({ track }: { track: RoadmapTrack }) {
         </div>
 
         <div className="rm-head-links">
-          <Link href={track.chapter.href} className="np-btn rm-btn">
-            Read the full guide →
-          </Link>
+          {/* Only some tracks have a long-form chapter written for them. */}
+          {track.chapter && (
+            <Link href={track.chapter.href} className="np-btn rm-btn">
+              Read the full guide →
+            </Link>
+          )}
           <Link href="/roadmaps" className="rm-link-quiet">
             All roadmaps
           </Link>

@@ -57,6 +57,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Soumyaranjan" }],
   category: "education",
   robots: { index: true, follow: true },
+  // Site verification for AdSense. Next renders this into <head> as
+  // <meta name="google-adsense-account" content="...">.
+  other: { "google-adsense-account": "ca-pub-2142314669046516" },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
