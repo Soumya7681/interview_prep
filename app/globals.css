@@ -1779,80 +1779,102 @@ body.has-drawer-open { overflow: hidden; }
 .rmi-guide-link { margin-top: 14px; font-size: 14px; color: var(--text-soft); }
 .rmi-guide-link a { color: var(--accent); }
 
-/* ---------- Track header ---------- */
-.rm-head { margin-bottom: 24px; }
-.rm-head-main { display: flex; align-items: flex-start; gap: 14px; }
+/* ---------- Track header ----------
+   Kept deliberately short: the map is the point of the page, so the header
+   is a masthead plus one ruled strip of facts, not a stack of panels. */
+.rm-head { margin-bottom: 14px; }
+.rm-kicker {
+  margin: 0 0 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.rm-head-main { display: flex; align-items: flex-start; gap: 13px; }
 .rm-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--accent);
   background: var(--accent-soft);
   color: var(--accent);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: .06em;
 }
 .rmi-mark { width: 38px; height: 38px; font-size: 13px; }
 .rm-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 30px;
+  font-size: 27px;
   line-height: 1.15;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   color: var(--text);
 }
-.rm-tagline { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-soft); }
+.rm-tagline { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-soft); }
 
-.rm-facts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 12px;
-  margin: 18px 0 0;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-subtle);
+/* Facts and progress share one strip between hairlines. */
+.rm-headbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 22px;
+  margin-top: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
 }
+.rm-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.rm-facts > div { display: flex; align-items: baseline; gap: 7px; }
+.rm-facts > div + div { padding-left: 16px; border-left: 1px solid var(--border-soft); }
 .rm-facts dt {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 10px;
-  letter-spacing: .06em;
+  font-size: 9px;
+  letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 3px;
 }
-.rm-facts dd { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text); }
+.rm-facts dd { margin: 0; font-size: 13px; line-height: 1.45; color: var(--text); }
 
-.rm-progress { margin-top: 16px; }
+.rm-progress { flex: 0 1 210px; min-width: 170px; }
 .rm-progress-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-soft);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .rm-progress-pct {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 700;
   color: var(--accent);
 }
-.rm-market {
-  margin: 16px 0 0;
-  padding: 12px 14px;
-  border-left: 3px solid var(--accent);
-  background: var(--bg-subtle);
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-soft);
+
+.rm-head-links { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+/* Compact override of .np-btn — the full-size block button pushed the map
+   most of a screen down. */
+.rm-btn {
+  padding: 8px 16px;
+  border-width: 1px;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-decoration: none;
 }
-.rm-head-links { display: flex; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
-.rm-btn { text-decoration: none; }
 .rm-link-quiet { font-size: 13px; color: var(--text-muted); }
 
 .rm-section-title {
@@ -1863,13 +1885,29 @@ body.has-drawer-open { overflow: hidden; }
 }
 .rm-section-title-spaced { margin-top: 26px; }
 
-.rm-prereq { margin: 26px 0; }
-.rm-chiplist { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; }
+/* Prerequisites are one inline run, not a titled section. */
+.rm-prereq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 14px 0 0;
+}
+.rm-prereq-label {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rm-chiplist { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
 .rm-chip {
   border: 1px solid var(--border);
   border-radius: 99px;
-  padding: 5px 12px;
-  font-size: 13px;
+  padding: 4px 11px;
+  font-size: 12px;
   color: var(--text-soft);
   background: var(--bg-elev);
 }
@@ -1880,26 +1918,76 @@ body.has-drawer-open { overflow: hidden; }
   text-transform: uppercase;
 }
 
-/* ---------- The map ---------- */
-.rm-map { position: relative; margin: 30px 0 10px; }
-.rm-stage { position: relative; padding: 0 0 26px 0; }
-.rm-stage-head {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-elev);
+/* Positioning copy, moved below the map — it is closing context, not a
+   prerequisite for reading the diagram. */
+.rm-market {
+  margin: 24px 0 0;
+  padding: 10px 0 10px 16px;
+  border-left: 3px solid var(--accent);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-soft);
 }
-.rm-stage-headtext { flex: 1; min-width: 0; }
+
+/* ---------- The map ----------
+   A roadmap.sh-style centre spine: primary topics sit on the line, sub-topics
+   branch right on a dotted bracket, notes and book cross-links hang left.
+   Every row shares one 3-column track so the spine stays dead straight. */
+.rm-map {
+  position: relative;
+  margin: 18px 0 10px;
+  --rm-col: 250px;   /* width of the centre (spine) column */
+  --rm-gap: 34px;    /* connector run between spine and asides */
+  --rm-wire: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.rm-map::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 22px;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  opacity: .5;
+}
+
+.rm-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--rm-col) minmax(0, 1fr);
+  column-gap: var(--rm-gap);
+  align-items: center;
+}
+/* Column 2 is the spine; asides are pinned so a missing one never reflows. */
+.rm-aside { grid-column: 1; justify-self: end; text-align: right; }
+.rm-node,
+.rm-stage-head,
+.rm-stage-build { grid-column: 2; }
+.rm-branches,
+.rm-stage-goal { grid-column: 3; }
+
+.rm-stage { position: relative; }
+
+/* ---------- Stage marker ---------- */
+.rm-stage-head {
+  position: relative;
+  margin: 22px 0 6px;
+  padding: 14px 12px;
+  text-align: center;
+  /* Opaque, so the spine does not run through the stage title. */
+  background: var(--bg);
+  border-top: 3px double var(--border);
+  border-bottom: 3px double var(--border);
+}
 .rm-stage-num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
   width: 30px;
   height: 30px;
+  margin-bottom: 8px;
   border-radius: 50%;
   border: 1px solid var(--accent);
   color: var(--accent);
@@ -1912,95 +2000,64 @@ body.has-drawer-open { overflow: hidden; }
 .rm-stage-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 21px;
-  margin: 0 0 3px;
+  line-height: 1.2;
+  margin: 0 0 5px;
   color: var(--text);
 }
 .rm-stage-meta {
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 11px;
-  letter-spacing: .04em;
+  font-size: 10px;
+  letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
-.rm-stage-goal { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-soft); }
 .rm-stage-bulk {
-  flex: 0 0 auto;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 99px;
-  padding: 4px 12px;
-  font: inherit;
-  font-size: 12px;
+  padding: 5px 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
   color: var(--text-muted);
   cursor: pointer;
 }
 .rm-stage-bulk:hover { border-color: var(--accent); color: var(--accent); }
-
-/* Nodes hang off a central spine, alternating sides on wide screens. */
-.rm-nodes {
-  list-style: none;
+.rm-stage-goal {
   margin: 0;
-  padding: 0;
-  position: relative;
+  padding-left: 4px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-soft);
 }
-/* One dashed spine runs the height of the map; stage cards sit on top of it. */
-.rm-map::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 14px;
-  left: 50%;
-  width: 2px;
-  margin-left: -1px;
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--border) 0 6px,
-    transparent 6px 12px
-  );
-}
-.rm-stage-head,
-.rm-stage-build { position: relative; }
-.rm-node-row {
-  position: relative;
-  display: flex;
-  padding: 7px 0;
-}
-.rm-node-row.is-left { justify-content: flex-end; padding-right: calc(50% + 26px); }
-.rm-node-row.is-right { justify-content: flex-start; padding-left: calc(50% + 26px); }
-/* Connector from the spine to each node. */
-.rm-node-row::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 24px;
-  height: 1px;
-  background: var(--border);
-}
-.rm-node-row.is-left::after { right: 50%; }
-.rm-node-row.is-right::after { left: 50%; }
 
+/* ---------- Spine nodes ---------- */
+.rm-nodes { list-style: none; margin: 0; padding: 0; }
+.rm-node-row { padding: 9px 0; }
 .rm-node {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  max-width: 100%;
+  gap: 9px;
+  width: 100%;
   text-align: left;
-  padding: 8px 13px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg-elev);
+  padding: 11px 13px;
+  border: 2px solid var(--accent);
+  background: var(--accent-soft);
   font: inherit;
   font-size: 14px;
+  line-height: 1.35;
   color: var(--text);
   cursor: pointer;
 }
-.rm-node:hover { border-color: var(--accent); }
-.rm-node.is-active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
-.rm-node.is-recommended { border-style: dashed; }
-.rm-node.is-optional { border-style: dashed; opacity: .82; }
-.rm-node.is-done { background: var(--accent-soft); border-color: var(--accent); }
-.rm-node-label { min-width: 0; }
+.rm-node:hover { box-shadow: 0 0 0 3px var(--accent-soft); }
+.rm-node.is-active { box-shadow: 0 0 0 3px var(--accent-soft), inset 4px 0 0 var(--accent); }
+/* Off-path topics read lighter: dashed, on plain paper. */
+.rm-node.is-recommended,
+.rm-node.is-optional { border-style: dashed; background: var(--bg-elev); }
+.rm-node.is-optional { opacity: .85; }
+.rm-node.is-done { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.rm-node-label { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
 .rm-node-tick {
   display: inline-flex;
   align-items: center;
@@ -2008,33 +2065,118 @@ body.has-drawer-open { overflow: hidden; }
   flex: 0 0 auto;
   width: 18px;
   height: 18px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  border: 1px solid var(--accent);
   background: var(--bg);
   font-size: 12px;
   line-height: 1;
   color: var(--accent);
 }
-.rm-node.is-done .rm-node-tick { border-color: var(--accent); }
+.rm-node.is-done .rm-node-tick { border-color: var(--bg); }
 .rm-node-kind {
+  flex: 0 0 auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 9px;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--text-muted);
   border: 1px solid var(--border-soft);
-  border-radius: 3px;
   padding: 1px 4px;
 }
+.rm-node.is-done .rm-node-kind { color: var(--bg); border-color: var(--bg); }
+
+/* ---------- Left aside: note + book cross-link ---------- */
+.rm-aside {
+  position: relative;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+/* Dotted run from the spine node to the aside. */
+.rm-aside::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(var(--rm-gap) * -1);
+  width: var(--rm-gap);
+  border-top: 2px dotted var(--rm-wire);
+}
+.rm-note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+.rm-xlink {
+  display: inline-block;
+  padding: 7px 11px;
+  border: 1px solid var(--text);
+  background: var(--bg-elev);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+}
+.rm-xlink:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- Right branches: sub-topics on a dotted bracket ---------- */
+.rm-branches {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 22px;
+  max-width: 330px;
+  display: grid;
+  gap: 5px;
+}
+/* The bracket spine, plus the run back to the node. Insets of 17px land on
+   the centre of the first and last branch rather than their outer edges. */
+.rm-branches::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 17px;
+  bottom: 17px;
+  border-left: 2px dotted var(--rm-wire);
+}
+.rm-branches::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(var(--rm-gap) * -1);
+  width: var(--rm-gap);
+  border-top: 2px dotted var(--rm-wire);
+}
+.rm-branch {
+  position: relative;
+  padding: 8px 11px;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--text-soft);
+}
+.rm-branch::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -22px;
+  width: 22px;
+  border-top: 2px dotted var(--rm-wire);
+}
+/* A lone branch needs no bracket, just the straight run. */
+.rm-branches:has(> .rm-branch:only-child)::before { display: none; }
 
 .rm-stage-build {
-  margin: 14px 0 0;
-  padding: 12px 14px;
+  margin: 18px 0 0;
+  padding: 11px 14px;
   border: 1px dashed var(--accent);
-  border-radius: 8px;
   background: var(--bg-subtle);
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--text);
 }
 .rm-stage-build-tag {
@@ -2042,90 +2184,236 @@ body.has-drawer-open { overflow: hidden; }
   margin-right: 8px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
-  letter-spacing: .06em;
+  letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--accent);
 }
-.rm-spine-end { text-align: center; color: var(--border); font-size: 14px; }
+.rm-spine-end { margin-top: 4px; text-align: center; color: var(--accent); opacity: .5; font-size: 12px; }
 
-.rm-after { margin-top: 30px; }
+.rm-after { margin-top: 30px; padding-top: 24px; border-top: 3px double var(--border); }
 .rm-proof { margin: 0; padding-left: 20px; list-style: disc; }
 .rm-proof li { font-size: 14px; line-height: 1.65; color: var(--text-soft); margin-bottom: 5px; }
 .rm-updated { margin-top: 22px; font-size: 12px; color: var(--text-muted); }
 
-/* ---------- Node detail panel ---------- */
+/* ---------- Node detail panel ----------
+   Sits in the same layer as the sidebar drawer: below the fixed header
+   (z 50) so the header stays usable, above everything in the page. */
 .rm-detail-scrim {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  top: var(--header-h);
+  z-index: 44;
   background: rgba(0, 0, 0, .35);
+  animation: rm-fade-in .2s ease;
 }
 .rm-detail {
   position: fixed;
-  z-index: 41;
-  top: 0;
+  z-index: 45;
+  top: var(--header-h);
   right: 0;
   bottom: 0;
   width: min(420px, 100%);
   overflow-y: auto;
-  padding: 20px;
-  background: var(--bg-elev);
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding: 0 0 max(24px, env(safe-area-inset-bottom));
+  /* Paper tone, a shade off the page, so the panel reads as a separate sheet.
+     --bg-elev matches --bg in the light theme, hence the two-token split. */
+  background: var(--bg-sidebar);
   border-left: 1px solid var(--border);
+  box-shadow: -14px 0 34px rgba(0, 0, 0, .18);
+  animation: rm-detail-in .2s ease;
 }
-.rm-detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+:root[data-theme="dark"] .rm-detail { background: var(--bg-elev); }
+.rm-detail::-webkit-scrollbar { width: 6px; }
+.rm-detail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.rm-detail:focus-visible { outline: none; }
+
+@keyframes rm-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rm-detail-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes rm-detail-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+/* While the panel is open the page behind it must not scroll — the scrim
+   swallows the clicks, so a scrolling background is just lost position.
+   The lock goes on <html>: this document sets `overflow-x: hidden` there, so
+   <body>'s overflow no longer propagates to the viewport and locking body
+   alone does nothing. `scrollbar-gutter` keeps the classic scrollbar's width
+   reserved, so the page behind does not jump sideways as it locks. */
+html.has-rm-detail-open {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-detail,
+  .rm-detail-scrim { animation: none; }
+}
+/* Sheet handle — only drawn on the mobile bottom-sheet layout. */
+.rm-detail-grip { display: none; }
+
+/* The head stays put while the body scrolls, so Close is always in reach.
+   `background: inherit` keeps it opaque over the scrolling content. */
+.rm-detail-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  padding-right: max(20px, env(safe-area-inset-right));
+  background: inherit;
+  border-bottom: 3px double var(--border);
+}
+.rm-detail-headtext { min-width: 0; }
 .rm-detail-stage {
-  margin: 0 0 4px;
+  margin: 0 0 5px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
-  letter-spacing: .06em;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--accent);
 }
 .rm-detail-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 22px;
+  font-size: 25px;
+  line-height: 1.2;
   margin: 0;
   color: var(--text);
+  overflow-wrap: anywhere;
 }
+
+.rm-detail-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.rm-detail-tag {
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg);
+}
+.rm-detail-tag.is-core { border-color: var(--accent); color: var(--accent); }
+.rm-detail-tag.is-optional { border-style: dashed; }
+.rm-detail-tag.is-status.is-done {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
 .rm-detail-close {
   flex: 0 0 auto;
-  background: none;
+  background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  width: 30px;
-  height: 30px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  line-height: 1;
   font: inherit;
+  font-size: 13px;
   color: var(--text-muted);
   cursor: pointer;
 }
 .rm-detail-close:hover { border-color: var(--accent); color: var(--accent); }
+
+.rm-detail-body {
+  padding: 18px 20px 0;
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+
+/* Primary action, in the same square uppercase idiom as .np-btn. */
 .rm-detail-toggle {
-  margin-top: 14px;
   width: 100%;
-  padding: 9px 12px;
-  border: 1px solid var(--accent);
-  border-radius: 8px;
-  background: var(--bg);
-  font: inherit;
-  font-size: 14px;
-  color: var(--accent);
+  padding: 11px 12px;
+  border: 1px solid var(--text);
+  background: transparent;
+  font-family: sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--text);
   cursor: pointer;
 }
-.rm-detail-toggle.is-done { background: var(--accent); color: var(--bg); }
-.rm-detail-summary { margin: 16px 0 0; font-size: 14px; line-height: 1.65; color: var(--text-soft); }
+.rm-detail-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.rm-detail-toggle.is-done {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+.rm-detail-toggle.is-done:hover { opacity: .88; color: var(--bg); }
+
+.rm-detail-summary {
+  margin: 18px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+.rm-detail-sec { margin-top: 24px; }
+/* Ruled kicker: label, then a hairline running to the panel edge. */
 .rm-detail-label {
-  margin: 20px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
-  letter-spacing: .06em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
-.rm-detail-topics { margin: 0; padding-left: 18px; list-style: disc; }
-.rm-detail-topics li { font-size: 14px; line-height: 1.6; color: var(--text-soft); margin-bottom: 5px; }
-.rm-detail-ref { font-size: 14px; color: var(--accent); }
-.rm-detail-links { list-style: none; margin: 0; padding: 0; }
-.rm-detail-links a { font-size: 14px; color: var(--accent); }
+.rm-detail-label::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+.rm-detail-topics { margin: 0; padding: 0; list-style: none; }
+.rm-detail-topics li {
+  position: relative;
+  padding: 8px 0 8px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+.rm-detail-topics li:last-child { border-bottom: none; }
+.rm-detail-topics li::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 15px;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  opacity: .6;
+}
+
+/* Both link kinds are rows: label left, direction glyph right. */
+.rm-detail-ref,
+.rm-detail-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text);
+  text-decoration: none;
+}
+.rm-detail-ref:hover,
+.rm-detail-links a:hover { border-color: var(--accent); color: var(--accent); }
+.rm-detail-go { flex: 0 0 auto; color: var(--accent); font-size: 13px; }
+.rm-detail-links { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
 
 /* ---------- Landing-page roadmap strip ---------- */
 .np-roadmap-grid {
@@ -2159,19 +2447,50 @@ body.has-drawer-open { overflow: hidden; }
   color: var(--text-muted);
 }
 
+/* ---------- Below ~1100px the three-column spine has no room for prose,
+   so it folds to a left rail: node, then its branches, then its note. ------- */
+@media (max-width: 1100px) {
+  .rm-map::before { left: 13px; margin-left: 0; }
+  .rm-row {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+    padding-left: 38px;
+  }
+  .rm-aside,
+  .rm-node,
+  .rm-branches,
+  .rm-stage-head,
+  .rm-stage-build,
+  .rm-stage-goal { grid-column: 1; }
+  .rm-node { order: 1; }
+  .rm-branches { order: 2; margin-top: 8px; max-width: none; }
+  .rm-aside { order: 3; }
+  .rm-aside {
+    align-items: flex-start;
+    justify-self: stretch;
+    text-align: left;
+    max-width: none;
+    margin-top: 10px;
+  }
+  /* The runs back to the spine only make sense across a gap. */
+  .rm-aside::after,
+  .rm-branches::after { display: none; }
+  .rm-stage-head { text-align: left; }
+  .rm-stage-goal { margin-top: 10px; }
+  .rm-spine-end { text-align: left; padding-left: 8px; }
+}
+
 /* ---------- Narrow screens: single column, sheet-style detail ---------- */
 @media (max-width: 720px) {
-  .rm-map::before { left: 13px; margin-left: 0; }
-  .rm-node-row,
-  .rm-node-row.is-left,
-  .rm-node-row.is-right {
-    justify-content: flex-start;
-    padding-left: 38px;
-    padding-right: 0;
+  .rm-stage-num { width: 26px; height: 26px; font-size: 12px; }
+  .rm-facts { grid-template-columns: 1fr; }
+  .rm-facts > div {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-soft);
   }
-  .rm-node-row::after,
-  .rm-node-row.is-left::after,
-  .rm-node-row.is-right::after { left: 13px; right: auto; width: 24px; }
+  .rm-facts > div:first-child { border-top: none; }
+  .rm-mark { width: 38px; height: 38px; font-size: 13px; }
   .rm-detail {
     top: auto;
     left: 0;
@@ -2179,12 +2498,28 @@ body.has-drawer-open { overflow: hidden; }
     bottom: 0;
     width: 100%;
     max-height: 82vh;
+    max-height: 82dvh;
     border-left: none;
     border-top: 1px solid var(--border);
     border-radius: 12px 12px 0 0;
+    box-shadow: 0 -14px 34px rgba(0, 0, 0, .18);
+    animation-name: rm-detail-up;
   }
-  .rm-stage-head { flex-wrap: wrap; }
-  .rm-stage-bulk { margin-left: 42px; }
+  .rm-detail-grip {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    width: 38px;
+    height: 4px;
+    margin: 0 auto;
+    padding-top: 10px;
+    border-radius: 99px;
+    background: var(--border);
+    background-clip: content-box;
+  }
+  .rm-detail-head { padding-top: 12px; }
+  .rm-detail-title { font-size: 22px; }
   .rmi-title { font-size: 28px; }
   .rm-title { font-size: 25px; }
 }
