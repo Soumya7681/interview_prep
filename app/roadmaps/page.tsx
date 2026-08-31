@@ -44,11 +44,14 @@ export default function RoadmapsPage() {
       </div>
 
       <header className="rmi-head">
+        <p className="rmi-kicker">
+          {TRACKS.length} tracks · {totalNodeCount()} topics
+        </p>
         <h1 className="rmi-title">Career Roadmaps</h1>
         <p className="rmi-sub">
-          What to learn, in what order, and what to build at each stage — for the tech roles
-          employers are hiring for right now. {TRACKS.length} tracks, {totalNodeCount()} topics.
-          Tick a topic and your progress is kept in this browser.
+          What to learn, in what order, and what to build at each stage — for the tech
+          roles employers are hiring for right now. Tick a topic and your progress is
+          kept in this browser.
         </p>
       </header>
 

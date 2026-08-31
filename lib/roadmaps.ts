@@ -43,10 +43,22 @@ export type RoadmapStage = {
   build: string;
 };
 
+/**
+ * Groups the index page. Add a new one freely — the filter bar is built from
+ * whatever categories the tracks actually declare, in CATEGORY_ORDER order.
+ */
+export type TrackCategory =
+  | "AI & ML"
+  | "Data"
+  | "Platform & Infra"
+  | "Product & Delivery"
+  | "Web & Mobile";
+
 export type RoadmapTrack = {
   slug: string;
   title: string;
   shortTitle: string;
+  category: TrackCategory;
   /** Two-letter mark used in the index cards and the map header. */
   mark: string;
   tagline: string;
@@ -66,6 +78,7 @@ export type RoadmapTrack = {
 
 const AI_ENGINEER: RoadmapTrack = {
   slug: "ai-engineer",
+  category: "AI & ML",
   title: "AI Engineer",
   shortTitle: "AI Engineer",
   mark: "AI",
@@ -457,6 +470,7 @@ const AI_ENGINEER: RoadmapTrack = {
 
 const ML_ENGINEER: RoadmapTrack = {
   slug: "ml-engineer",
+  category: "AI & ML",
   title: "Machine Learning Engineer",
   shortTitle: "ML Engineer",
   mark: "ML",
@@ -679,6 +693,7 @@ const ML_ENGINEER: RoadmapTrack = {
 
 const PROMPT_ENGINEER: RoadmapTrack = {
   slug: "prompt-engineer",
+  category: "AI & ML",
   title: "Prompt Engineer",
   shortTitle: "Prompt Engineer",
   mark: "PE",
@@ -903,6 +918,7 @@ const PROMPT_ENGINEER: RoadmapTrack = {
 
 const FDE: RoadmapTrack = {
   slug: "forward-deployed-engineer",
+  category: "Product & Delivery",
   title: "Forward Deployed Engineer (FDE)",
   shortTitle: "FDE",
   mark: "FD",
@@ -1110,6 +1126,7 @@ const FDE: RoadmapTrack = {
 
 const DATA_ENGINEER: RoadmapTrack = {
   slug: "data-engineer",
+  category: "Data",
   title: "Data Engineer",
   shortTitle: "Data Engineer",
   mark: "DE",
@@ -1336,6 +1353,7 @@ const DATA_ENGINEER: RoadmapTrack = {
 
 const MLOPS: RoadmapTrack = {
   slug: "mlops-engineer",
+  category: "Platform & Infra",
   title: "MLOps / AI Platform Engineer",
   shortTitle: "MLOps",
   mark: "OP",
@@ -1592,6 +1610,42 @@ export function trackBySlug(slug: string): RoadmapTrack | undefined {
 /** Every node id in a track — the denominator for its progress percentage. */
 export function trackNodeIds(track: RoadmapTrack): string[] {
   return track.stages.flatMap((stage) => stage.nodes.map((n) => n.id));
+}
+
+/** Display order for the filter bar; unlisted categories fall to the end. */
+export const CATEGORY_ORDER: TrackCategory[] = [
+  "AI & ML",
+  "Data",
+  "Platform & Infra",
+  "Product & Delivery",
+  "Web & Mobile",
+];
+
+/** Categories that actually have tracks, with counts, for the filter bar. */
+export function trackCategories(): Array<{ name: TrackCategory; count: number }> {
+  const counts = new Map<TrackCategory, number>();
+  for (const t of TRACKS) counts.set(t.category, (counts.get(t.category) ?? 0) + 1);
+  return [...counts.entries()]
+    .sort((a, b) => {
+      const ai = CATEGORY_ORDER.indexOf(a[0]);
+      const bi = CATEGORY_ORDER.indexOf(b[0]);
+      return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+    })
+    .map(([name, count]) => ({ name, count }));
+}
+
+/** Lowercased haystack for the index search box. Built once per track. */
+export function trackSearchText(track: RoadmapTrack): string {
+  return [
+    track.title,
+    track.shortTitle,
+    track.category,
+    track.tagline,
+    track.entryBar,
+    ...track.tools,
+  ]
+    .join(" ")
+    .toLowerCase();
 }
 
 export function totalNodeCount(): number {

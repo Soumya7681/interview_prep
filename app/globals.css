@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Merriweather:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Merriweather:wght@300;400;700&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
@@ -21,6 +21,13 @@
   --code-inline:  #6b1c1c;
   --ok:           #2b6b3b;
   --header-h:     56px;
+
+  /* Typefaces. Body copy is the platform UI stack; the roadmap diagram uses a
+     hand-lettered face so it reads as a sketch, not as prose. */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+               "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-diagram: 'Balsamiq Sans', ui-rounded, var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root[data-theme="dark"] {
@@ -46,7 +53,7 @@
 html, body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Merriweather', serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -1320,19 +1327,126 @@ body.has-drawer-open { overflow: hidden; }
   margin: 0;
 }
 .pg-sub strong { color: var(--text); }
-.pg-frame-wrap {
+/* Two stacked panes: editor over console, side by side when there is room. */
+.pg {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 1100px) {
+  .pg { grid-template-columns: 1fr 1fr; }
+}
+.pg-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
   background: var(--bg-elev);
 }
-.pg-frame {
-  display: block;
-  width: 100%;
-  height: 72vh;
-  min-height: 520px;
-  border: 0;
+.pg-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-subtle);
 }
+.pg-bar-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.pg-bar-actions { display: flex; align-items: center; gap: 8px; }
+.pg-pick { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.pg-select {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 4px 8px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+}
+.pg-select:hover { border-color: var(--accent); }
+.pg-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.pg-status.is-error { color: var(--accent); }
+@media (max-width: 560px) { .pg-status { display: none; } }
+.pg-btn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 4px 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.pg-btn:hover { border-color: var(--accent); color: var(--accent); }
+.pg-btn-run {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+.pg-btn-run:hover { opacity: .88; color: var(--bg); }
+.pg-btn-stop { border-color: var(--accent); color: var(--accent); }
+
+.pg-code,
+.pg-out {
+  flex: 1 1 auto;
+  height: 58vh;
+  min-height: 340px;
+  overflow: auto;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.pg-code {
+  width: 100%;
+  resize: vertical;
+  border: 0;
+  background: var(--code-bg);
+  color: var(--text);
+  tab-size: 2;
+}
+.pg-code:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.pg-out { background: var(--bg-elev); }
+.pg-out-empty { margin: 0; font-size: 12px; color: var(--text-muted); }
+.pg-line {
+  margin: 0 0 2px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border-soft);
+  font: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--text-soft);
+}
+.pg-line:last-child { border-bottom: none; }
+.pg-line.is-warn { color: #a4741c; }
+.pg-line.is-error { color: var(--accent); }
+:root[data-theme="dark"] .pg-line.is-warn { color: #d6a441; }
+
+/* Offscreen rather than display:none — a hidden frame still needs to run. */
+.pg-runner {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0;
+  left: -9999px;
+  visibility: hidden;
+}
+
 .pg-note {
   margin-top: 12px;
   font-size: 12.5px;
@@ -1712,7 +1826,15 @@ body.has-drawer-open { overflow: hidden; }
    ========================================================================== */
 
 /* ---------- Index (/roadmaps) ---------- */
-.rmi-head { margin-bottom: 22px; }
+.rmi-head { margin-bottom: 20px; }
+.rmi-kicker {
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
 .rmi-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 34px;
@@ -1722,50 +1844,201 @@ body.has-drawer-open { overflow: hidden; }
 }
 .rmi-sub { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-soft); max-width: 68ch; }
 
+/* Six tracks, so the column count is capped at three: `auto-fill` was giving
+   five across on a wide screen and orphaning the sixth card on its own row. */
 .rmi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: 14px;
+  margin-top: 14px;
 }
+@media (min-width: 700px) {
+  .rmi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1180px) {
+  .rmi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 .rmi-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   padding: 16px;
   border: 1px solid var(--border);
-  border-radius: 10px;
   background: var(--bg-elev);
   text-decoration: none;
   color: inherit;
 }
-.rmi-card:hover { border-color: var(--accent); }
+.rmi-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 0 var(--accent);
+}
+/* A started track carries an ink edge so it stands out from untouched ones. */
+.rmi-card.is-started { box-shadow: inset 3px 0 0 var(--accent); }
+.rmi-card.is-started:hover { box-shadow: inset 3px 0 0 var(--accent), 0 2px 0 var(--accent); }
+
 .rmi-card-head { display: flex; align-items: flex-start; gap: 12px; }
-.rmi-card-heading { min-width: 0; }
+.rmi-card-heading { flex: 1 1 auto; min-width: 0; }
 .rmi-card-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 19px;
-  margin: 0 0 3px;
+  line-height: 1.25;
+  margin: 0 0 4px;
   color: var(--text);
+  text-wrap: balance;
 }
 .rmi-card-meta {
   margin: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 11px;
-  letter-spacing: .04em;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
-.rmi-card-tagline { margin: 0; flex: 1; font-size: 14px; line-height: 1.55; color: var(--text-soft); }
-.rmi-card-foot { display: flex; align-items: center; gap: 10px; }
-.rmi-card-foot .pbar { flex: 1; }
-.rmi-card-pct {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+/* Read affordance: the card is a link, so say so on hover. */
+.rmi-card-go {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-size: 15px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.rmi-card:hover .rmi-card-go,
+.rmi-card:focus-visible .rmi-card-go { opacity: 1; transform: translateX(0); }
+
+.rmi-card-tagline { margin: 0; flex: 1 1 auto; font-size: 14px; line-height: 1.55; color: var(--text-soft); }
+
+.rmi-card-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 11px;
+  border-top: 1px solid var(--border-soft);
+}
+.rmi-card-stats {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
   font-size: 12px;
   color: var(--text-muted);
-  min-width: 34px;
-  text-align: right;
 }
-.rmi-reset { margin-top: 16px; font-size: 13px; color: var(--text-muted); }
+.rmi-card-stats strong { color: var(--text); font-weight: 700; }
+.rmi-card-pct { margin-left: auto; white-space: nowrap; }
+.rmi-card.is-started .rmi-card-pct { color: var(--accent); }
+
+/* ---------- Browsing a catalogue that is meant to grow ---------- */
+.rmi-section { margin-top: 26px; }
+.rmi-section:first-of-type { margin-top: 0; }
+.rmi-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.rmi-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.rmi-browse {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.rmi-search {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+}
+.rmi-search:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+.rmi-sort {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rmi-sort select {
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  padding: 7px 9px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+.rmi-sort select:hover { border-color: var(--accent); }
+
+.rmi-cats { display: flex; flex-wrap: wrap; gap: 6px; }
+.rmi-cat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: var(--bg-elev);
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.rmi-cat:hover { border-color: var(--accent); color: var(--accent); }
+.rmi-cat.is-on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+.rmi-cat-n { font-family: var(--font-mono); font-size: 10px; opacity: .75; }
+
+.rmi-count {
+  margin: 12px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rmi-empty { margin: 18px 0; font-size: 14px; color: var(--text-soft); }
+.rmi-more {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  font: inherit;
+  font-size: 13px;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.rmi-more:hover { border-color: var(--accent); color: var(--accent); }
+
+.rmi-card-cat {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.rmi-reset { margin-top: 18px; font-size: 13px; color: var(--text-muted); }
 .rmi-reset-btn {
   background: none;
   border: none;
@@ -1775,7 +2048,7 @@ body.has-drawer-open { overflow: hidden; }
   cursor: pointer;
   text-decoration: underline;
 }
-.rmi-rules { margin-top: 30px; }
+.rmi-rules { margin-top: 34px; padding-top: 24px; border-top: 3px double var(--border); }
 .rmi-guide-link { margin-top: 14px; font-size: 14px; color: var(--text-soft); }
 .rmi-guide-link a { color: var(--accent); }
 
@@ -1936,6 +2209,7 @@ body.has-drawer-open { overflow: hidden; }
    branch right on a dotted bracket, notes and book cross-links hang left.
    Every row shares one 3-column track so the spine stays dead straight. */
 .rm-map {
+  font-family: var(--font-diagram);
   position: relative;
   margin: 18px 0 10px;
   --rm-col: 250px;   /* width of the centre (spine) column */
@@ -1953,6 +2227,14 @@ body.has-drawer-open { overflow: hidden; }
   background: var(--accent);
   opacity: .5;
 }
+
+.rm-map h2,
+.rm-map .rm-stage-title { font-family: var(--font-diagram) !important; }
+.rm-map .rm-stage-meta,
+.rm-map .rm-stage-bulk,
+.rm-map .rm-node-kind,
+.rm-map .rm-xlink,
+.rm-map .rm-stage-build-tag { font-family: var(--font-diagram); }
 
 .rm-row {
   display: grid;

@@ -67,16 +67,19 @@ export default function Sidebar({
   const showPractice =
     !q || ["practice", "playground", "compiler", "javascript", "js"].some((k) => k.includes(q) || q.includes(k));
 
-  // The roadmap area is not part of MANIFEST (it is data-driven, not markdown),
-  // so it gets its own searchable group.
-  const roadmapMatches = !q
-    ? TRACKS
-    : TRACKS.filter(
-        (t) =>
-          t.title.toLowerCase().includes(q) ||
-          t.shortTitle.toLowerCase().includes(q) ||
-          "roadmap career".includes(q),
-      );
+  // The roadmap area is not part of MANIFEST (it is data-driven, not markdown)
+  // and is deliberately one entry, not one per track: the catalogue is meant to
+  // grow, and the sidebar is for the book. Track names still match the search so
+  // typing "mlops" surfaces the way in.
+  const showRoadmaps =
+    !q ||
+    "roadmaps career tracks".includes(q) ||
+    TRACKS.some(
+      (t) =>
+        t.title.toLowerCase().includes(q) ||
+        t.shortTitle.toLowerCase().includes(q) ||
+        t.category.toLowerCase().includes(q),
+    );
 
   const sections = MANIFEST.map((sec) => {
     const matched = sec.chapters.filter(
@@ -103,40 +106,18 @@ export default function Sidebar({
           autoComplete="off"
         />
 
-        {roadmapMatches.length > 0 && (
+        {showRoadmaps && (
           <div className="section-group">
-            <div className="section-label">
-              <span style={{ display: "flex", alignItems: "center" }}>
-                Roadmaps
-                <span className="section-badge" style={{ marginLeft: "6px" }}>
-                  {roadmapMatches.length}
-                </span>
-              </span>
-            </div>
+            <div className="section-label">Career</div>
             <Link
               href="/roadmaps"
               className={`chap-link ${
-                pathname === "/roadmaps" || pathname === "/roadmaps/" ? "is-active" : ""
+                pathname === "/roadmaps" || pathname.startsWith("/roadmaps/") ? "is-active" : ""
               }`}
             >
               <span className="chap-num">◈</span>
-              <span>All roadmaps</span>
+              <span>Roadmaps</span>
             </Link>
-            {roadmapMatches.map((track) => {
-              const href = `/roadmaps/${track.slug}`;
-              return (
-                <Link
-                  key={track.slug}
-                  href={href}
-                  className={`chap-link ${
-                    pathname === href || pathname === `${href}/` ? "is-active" : ""
-                  }`}
-                >
-                  <span className="chap-num">{track.mark}</span>
-                  <span>{track.shortTitle}</span>
-                </Link>
-              );
-            })}
           </div>
         )}
 

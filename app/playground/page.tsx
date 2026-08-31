@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { COMPILER_URL, COMPILER_NAME } from "@/lib/site";
+import Playground from "@/components/Playground";
 import CompilerButton from "@/components/CompilerButton";
+import { COMPILER_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "JavaScript Playground — Run Code Online",
   description:
-    "Practice and run JavaScript directly in the browser with the Programiz online compiler — test interview code examples without leaving the prep book.",
+    "Run and tweak JavaScript straight in your browser — test the interview code examples from this prep book without leaving the page. Nothing is uploaded.",
   alternates: { canonical: "/playground" },
 };
 
@@ -13,38 +14,31 @@ export default function PlaygroundPage() {
   return (
     <>
       <div className="breadcrumb">
-        Practice <span className="breadcrumb-current">· JS Compiler</span>
+        Practice <span className="breadcrumb-current">· JS Playground</span>
       </div>
 
       <div className="pg-head">
         <div>
           <h1 className="pg-title">JavaScript Playground</h1>
           <p className="pg-sub">
-            Run and tweak the code examples from this prep book using the{" "}
-            <strong>{COMPILER_NAME}</strong>. If the embed doesn&apos;t load,
-            open it in a new tab.
+            Run and tweak the code examples from this prep book. Everything
+            executes <strong>in your own browser</strong> — no server, no
+            account, and your code never leaves this machine.
           </p>
         </div>
-        <CompilerButton variant="hero" label="Open in new tab ↗" />
+        <CompilerButton variant="hero" label="Other languages ↗" />
       </div>
 
-      <div className="pg-frame-wrap">
-        <iframe
-          className="pg-frame"
-          src={COMPILER_URL}
-          title={COMPILER_NAME}
-          loading="lazy"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-        />
-      </div>
+      <Playground />
 
       <p className="pg-note">
-        Compiler embedded from{" "}
+        Your code runs in a sandboxed frame with no access to this page or your
+        data, and is kept in this browser between visits. For languages other
+        than JavaScript, open the{" "}
         <a href={COMPILER_URL} target="_blank" rel="noopener noreferrer">
-          programiz.com
-        </a>
-        . All code runs on their servers — nothing you type here is stored by
-        this site.
+          Programiz compiler
+        </a>{" "}
+        in a new tab.
       </p>
     </>
   );
