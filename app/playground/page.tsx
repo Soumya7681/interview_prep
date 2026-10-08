@@ -14,7 +14,9 @@ export default function PlaygroundPage() {
   return (
     <>
       <div className="breadcrumb">
-        Practice <span className="breadcrumb-current">· JS Playground</span>
+        <span>Practice</span>
+        <span className="breadcrumb-sep" aria-hidden="true">/</span>
+        <span className="breadcrumb-current">JS Playground</span>
       </div>
 
       <div className="pg-head">

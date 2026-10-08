@@ -11,6 +11,7 @@ import {
   type TrackCategory,
 } from "@/lib/roadmaps";
 import { clearRoadmapProgress, useRoadmapProgress } from "@/lib/progress";
+import { ArrowRight } from "lucide-react";
 
 /**
  * Track cards for /roadmaps. Client-side because each card shows live progress
@@ -123,9 +124,7 @@ export default function RoadmapIndex() {
                 wrapped mid-phrase in every card. */}
             <p className="rmi-card-meta">{track.timeline}</p>
           </div>
-          <span className="rmi-card-go" aria-hidden>
-            →
-          </span>
+          <ArrowRight className="rmi-card-go" aria-hidden="true" />
         </div>
 
         <p className="rmi-card-tagline">{track.tagline}</p>

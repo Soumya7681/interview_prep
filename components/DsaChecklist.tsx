@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { DsaCategory } from "@/lib/dsa";
 import { DSA_DETAILS } from "@/lib/dsa-details";
 import { useDsaProgress, toggleDsa, clearDsa } from "@/lib/progress";
+import { ChevronRight } from "lucide-react";
 
 function ProgressBar({ done, total }: { done: number; total: number }) {
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);
@@ -105,9 +106,7 @@ export default function DsaChecklist({
               aria-expanded={!isCollapsed}
               onClick={() => toggleCollapse(cat.title)}
             >
-              <span className={`dsa-caret ${isCollapsed ? "is-collapsed" : ""}`} aria-hidden="true">
-                ▸
-              </span>
+              <ChevronRight className={`dsa-caret ${isCollapsed ? "is-collapsed" : ""}`} aria-hidden="true" />
               <span className="dsa-cat-title">{cat.title}</span>
               <span className={`dsa-cat-count ${allDone ? "is-complete" : ""}`}>
                 {catDone}/{cat.items.length}
@@ -149,9 +148,7 @@ export default function DsaChecklist({
                         <span className="dsa-row-num">{item.id}</span>
                         <span className="dsa-row-label">{item.label}</span>
                         {detail && (
-                          <span className={`dsa-row-caret ${isOpen ? "is-open" : ""}`} aria-hidden="true">
-                            ▸
-                          </span>
+                          <ChevronRight className={`dsa-row-caret ${isOpen ? "is-open" : ""}`} aria-hidden="true" />
                         )}
                       </div>
 

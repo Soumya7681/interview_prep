@@ -8,6 +8,7 @@ import {
   toggleRoadmapNode,
   useRoadmapProgress,
 } from "@/lib/progress";
+import { ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
 
 /**
  * The roadmap.sh-style map for one track: a vertical spine of stages, with
@@ -124,8 +125,9 @@ export default function RoadmapMap({ track }: { track: RoadmapTrack }) {
         <div className="rm-head-links">
           {/* Only some tracks have a long-form chapter written for them. */}
           {track.chapter && (
-            <Link href={track.chapter.href} className="np-btn rm-btn">
-              Read the full guide →
+            <Link href={track.chapter.href} className="btn btn-secondary btn-sm">
+              Read the full guide
+              <ArrowRight aria-hidden="true" />
             </Link>
           )}
           <Link href="/roadmaps" className="rm-link-quiet">
@@ -414,7 +416,7 @@ function NodeDetail({
             onClick={onClose}
             aria-label="Close"
           >
-            ✕
+            <X aria-hidden="true" />
           </button>
         </div>
 
@@ -424,7 +426,13 @@ function NodeDetail({
             className={`rm-detail-toggle${done ? " is-done" : ""}`}
             onClick={() => toggleRoadmapNode(node.id)}
           >
-            {done ? "✓ Marked studied" : "Mark as studied"}
+            {done ? (
+              <>
+                <Check aria-hidden="true" /> Marked studied
+              </>
+            ) : (
+              "Mark as studied"
+            )}
           </button>
 
           {node.summary && <p className="rm-detail-summary">{node.summary}</p>}
@@ -445,9 +453,7 @@ function NodeDetail({
               <p className="rm-detail-label">In this book</p>
               <Link href={node.ref.href} className="rm-detail-ref">
                 <span>{node.ref.label}</span>
-                <span className="rm-detail-go" aria-hidden>
-                  →
-                </span>
+                <ArrowRight className="rm-detail-go" aria-hidden="true" />
               </Link>
             </section>
           )}
@@ -460,9 +466,7 @@ function NodeDetail({
                   <li key={l.href}>
                     <a href={l.href} target="_blank" rel="noopener noreferrer">
                       <span>{l.label}</span>
-                      <span className="rm-detail-go" aria-hidden>
-                        ↗
-                      </span>
+                      <ArrowUpRight className="rm-detail-go" aria-hidden="true" />
                     </a>
                   </li>
                 ))}

@@ -40,7 +40,9 @@ export default function RoadmapsPage() {
       />
 
       <div className="breadcrumb">
-        Career Roadmaps <span className="breadcrumb-current">· All tracks</span>
+        <span>Career Roadmaps</span>
+        <span className="breadcrumb-sep" aria-hidden="true">/</span>
+        <span className="breadcrumb-current">All tracks</span>
       </div>
 
       <header className="rmi-head">

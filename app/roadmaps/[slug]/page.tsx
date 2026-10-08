@@ -70,7 +70,9 @@ export default async function RoadmapTrackPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="breadcrumb">
-        Career Roadmaps <span className="breadcrumb-current">· {track.shortTitle}</span>
+        <span>Career Roadmaps</span>
+        <span className="breadcrumb-sep" aria-hidden="true">/</span>
+        <span className="breadcrumb-current">{track.shortTitle}</span>
       </div>
       <RoadmapMap track={track} />
     </>

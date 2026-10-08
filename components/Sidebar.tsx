@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { MANIFEST } from "@/lib/manifest";
 import { COMPILER_URL } from "@/lib/site";
 import { TRACKS } from "@/lib/roadmaps";
+import { ChevronRight, Code2, ExternalLink, Map as MapIcon, Search } from "lucide-react";
 
 function slugHref(folder: string, file: string) {
   const base = file.replace(/\.md$/, "").toLowerCase();
@@ -93,99 +94,105 @@ export default function Sidebar({
 
   return (
     <>
-      {open && <div className="sidebar-scrim" onClick={onClose} />}
+      {open && <div className="sidebar-scrim" onClick={onClose} aria-hidden="true" />}
 
-      <aside className={`sidebar ${open ? "is-open" : ""}`}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search chapters…"
-          className="search-input"
-          spellCheck={false}
-          autoComplete="off"
-        />
+      <aside className={`sidebar ${open ? "is-open" : ""}`} aria-label="Chapters">
+        <label className="search-field">
+          <Search className="search-icon" aria-hidden="true" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search chapters"
+            aria-label="Search chapters"
+            className="search-input"
+            spellCheck={false}
+            autoComplete="off"
+          />
+        </label>
 
-        {showRoadmaps && (
+        {(showRoadmaps || showPractice) && (
           <div className="section-group">
-            <div className="section-label">Career</div>
-            <Link
-              href="/roadmaps"
-              className={`chap-link ${
-                pathname === "/roadmaps" || pathname.startsWith("/roadmaps/") ? "is-active" : ""
-              }`}
-            >
-              <span className="chap-num">◈</span>
-              <span>Roadmaps</span>
-            </Link>
+            {showRoadmaps && (
+              <Link
+                href="/roadmaps"
+                className={`chap-link chap-link-tool ${
+                  pathname === "/roadmaps" || pathname.startsWith("/roadmaps/") ? "is-active" : ""
+                }`}
+              >
+                <MapIcon className="chap-icon" aria-hidden="true" />
+                <span>Career roadmaps</span>
+              </Link>
+            )}
+            {showPractice && (
+              <>
+                <Link
+                  href="/playground"
+                  className={`chap-link chap-link-tool ${
+                    pathname === "/playground" || pathname === "/playground/" ? "is-active" : ""
+                  }`}
+                >
+                  <Code2 className="chap-icon" aria-hidden="true" />
+                  <span>JS playground</span>
+                </Link>
+                <a
+                  href={COMPILER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="chap-link chap-link-tool"
+                >
+                  <ExternalLink className="chap-icon" aria-hidden="true" />
+                  <span>Online compiler</span>
+                </a>
+              </>
+            )}
           </div>
         )}
 
-        {showPractice && (
-          <div className="section-group">
-            <div className="section-label">Practice</div>
-            <Link
-              href="/playground"
-              className={`chap-link ${
-                pathname === "/playground" || pathname === "/playground/" ? "is-active" : ""
-              }`}
-            >
-              <span className="chap-num">▶</span>
-              <span>JS Playground</span>
-            </Link>
-            <a
-              href={COMPILER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="chap-link"
-            >
-              <span className="chap-num">↗</span>
-              <span>Online Compiler</span>
-            </a>
-          </div>
-        )}
-
-        {sections.length === 0 && !showPractice && (
-          <p style={{ color: "var(--text-muted)", fontSize: 12, padding: "8px 10px" }}>
-            No chapters match.
-          </p>
+        {sections.length === 0 && !showPractice && !showRoadmaps && (
+          <p className="sidebar-empty">No chapters match &ldquo;{query}&rdquo;.</p>
         )}
 
         {sections.map((sec) => {
           const isExpanded = isSearching || expanded[sec.title];
-          
+
           return (
             <div key={sec.title} className="section-group">
-              <div
+              <button
+                type="button"
                 className="section-label"
+                aria-expanded={isExpanded}
                 onClick={() => toggleSection(sec.title)}
-                style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                disabled={isSearching}
               >
-                <span style={{ display: "flex", alignItems: "center" }}>
-                  {sec.title}
-                  <span className="section-badge" style={{ marginLeft: "6px" }}>{sec.matched.length}</span>
-                </span>
-                {!isSearching && (
-                  <span style={{ fontSize: "10px", opacity: 0.6, display: "flex", alignItems: "center" }}>{isExpanded ? "▼" : "▶"}</span>
-                )}
-              </div>
+                <ChevronRight
+                  className={`section-caret${isExpanded ? " is-open" : ""}`}
+                  aria-hidden="true"
+                />
+                <span className="section-title">{sec.title}</span>
+                <span className="section-badge">{sec.matched.length}</span>
+              </button>
 
-              {isExpanded && sec.matched.map((ch) => {
-                const href = slugHref(sec.folder, ch.file);
-                const isActive =
-                  pathname === href || pathname === href + "/";
+              {isExpanded && (
+                <div className="section-items">
+                  {sec.matched.map((ch) => {
+                    const href = slugHref(sec.folder, ch.file);
+                    const isActive = pathname === href || pathname === href + "/";
 
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={`chap-link ${isActive ? "is-active" : ""}`}
-                  >
-                    <span className="chap-num">{ch.num}</span>
-                    <span>{ch.title}</span>
-                  </Link>
-                );
-              })}
+                    return (
+                      <Link
+                        key={href}
+                        href={href}
+                        className={`chap-link ${isActive ? "is-active" : ""}`}
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        <span className="chap-num">{ch.num}</span>
+                        <span>{ch.title}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           );
         })}

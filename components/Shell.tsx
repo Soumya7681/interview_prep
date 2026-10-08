@@ -3,10 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, Moon, Sun } from "lucide-react";
 import Sidebar from "./Sidebar";
 import StarButton from "./StarButton";
-import CompilerButton from "./CompilerButton";
 import { BRAND } from "@/lib/site";
+
+const NAV = [
+  { href: "/start", label: "Book", match: (p: string) => p !== "/" && !p.startsWith("/roadmaps") && !p.startsWith("/playground") },
+  { href: "/roadmaps", label: "Roadmaps", match: (p: string) => p.startsWith("/roadmaps") },
+  { href: "/playground", label: "Playground", match: (p: string) => p.startsWith("/playground") },
+];
 
 export default function Shell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -24,74 +30,74 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {isLanding ? (
-        <div className="landing-sticky-nav">
-          <Link href="/start" className="np-btn landing-nav-btn">
-            Dashboard →
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+      <header className="app-header">
+        <div className="app-header-inner">
+          {!isLanding && (
+            <button
+              type="button"
+              aria-label="Open chapter menu"
+              aria-expanded={open}
+              className="icon-btn mobile-only"
+              onClick={() => setOpen((o) => !o)}
+            >
+              <Menu aria-hidden="true" />
+            </button>
+          )}
+
+          <Link href="/" className="brand" aria-label={`${BRAND} home`}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- static export, images are unoptimized anyway */}
+            <img
+              src="/brand/jobprep-mark.png"
+              alt=""
+              width={32}
+              height={32}
+              className="brand-mark"
+            />
+            {/* Wordmark as text, not part of the image, so it can flip for dark mode. */}
+            <span className="brand-word" aria-hidden="true">
+              job<span>prep</span>
+            </span>
           </Link>
-          <button aria-label="Toggle theme" className="np-btn landing-nav-btn icon-only" onClick={toggleTheme}>
-            <svg className="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 16, height: 16 }}>
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" strokeLinejoin="round" />
-            </svg>
-            <svg className="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 16, height: 16 }}>
-              <circle cx="12" cy="12" r="4" />
-              <path
-                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
+
+          <nav className="top-nav" aria-label="Primary">
+            {NAV.map((item) => {
+              const active = item.match(pathname);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`top-nav-link${active ? " is-active" : ""}`}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="header-actions">
+            <StarButton variant="header" />
+            <button
+              type="button"
+              aria-label="Toggle dark mode"
+              className="icon-btn"
+              onClick={toggleTheme}
+            >
+              <Moon className="icon-moon" aria-hidden="true" />
+              <Sun className="icon-sun" aria-hidden="true" />
+            </button>
+          </div>
         </div>
-      ) : (
-        <header className="app-header">
-          <button
-            aria-label="Toggle menu"
-            className="icon-btn mobile-only"
-            onClick={() => setOpen((o) => !o)}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
-            </svg>
-          </button>
+      </header>
 
-          <Link href="/" className="brand">
-            <span className="brand-mark">JP</span>
-            <span>{BRAND}</span>
-            <span className="brand-tag desktop-only">full-stack interview</span>
-          </Link>
-
-          <div style={{ flex: 1 }} />
-
-          <Link href="/roadmaps" className="rm-header-btn" aria-label="Career roadmaps">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <circle cx="6" cy="6" r="2.5" />
-              <circle cx="18" cy="18" r="2.5" />
-              <path d="M6 8.5V13a3 3 0 0 0 3 3h6" strokeLinecap="round" />
-            </svg>
-            <span>Roadmaps</span>
-          </Link>
-
-          <CompilerButton variant="header" />
-          <StarButton variant="header" />
-
-          <button aria-label="Toggle theme" className="icon-btn" onClick={toggleTheme}>
-            <svg className="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" strokeLinejoin="round" />
-            </svg>
-            <svg className="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="4" />
-              <path
-                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </header>
-      )}
-
-      <div className="shell-grid">
+      <div className={isLanding ? "landing-shell" : "shell-grid"}>
         {!isLanding && <Sidebar open={open} onClose={() => setOpen(false)} />}
-        <main className={isLanding ? "landing-main" : "content"}>{children}</main>
+        <main id="main" className={isLanding ? "landing-main" : "content"}>
+          {children}
+        </main>
       </div>
     </>
   );

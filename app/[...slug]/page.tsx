@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { FLAT, findBySlug, DSA_PATH, type FlatChapter } from "@/lib/manifest";
-import { loadChapterHtml, pagerFor } from "@/lib/content";
+import { loadChapterHtml, pagerFor, tocFromHtml } from "@/lib/content";
 import { loadDsaContent } from "@/lib/dsa";
 import Pager from "@/components/Pager";
 import ReadAloud from "@/components/ReadAloud";
 import DsaChecklist from "@/components/DsaChecklist";
+import Toc from "@/components/Toc";
 
 /**
  * Chapter titles in the manifest are bare nouns ("Scope", "TCS"), which produced
@@ -74,7 +75,9 @@ export default async function ChapterPage({
     return (
       <>
         <div className="breadcrumb">
-          {entry.section} <span className="breadcrumb-current">· {entry.title}</span>
+          <span>{entry.section}</span>
+          <span className="breadcrumb-sep" aria-hidden="true">/</span>
+          <span className="breadcrumb-current">{entry.title}</span>
         </div>
         <article className="md">
           <h1>{dsa.title}</h1>
@@ -89,13 +92,22 @@ export default async function ChapterPage({
   const html = await loadChapterHtml(entry);
 
   return (
-    <>
-      <div className="breadcrumb">
-        {entry.section} <span className="breadcrumb-current">· {entry.title}</span>
+    <div className="doc-layout">
+      <div className="doc-main">
+        <div className="doc-topbar">
+          <div className="breadcrumb">
+            <span>{entry.section}</span>
+            <span className="breadcrumb-sep" aria-hidden="true">/</span>
+            <span className="breadcrumb-current">{entry.title}</span>
+          </div>
+          <ReadAloud />
+        </div>
+        <article className="md" dangerouslySetInnerHTML={{ __html: html }} />
+        <Pager prev={prev} next={next} />
       </div>
-      <ReadAloud />
-      <article className="md" dangerouslySetInnerHTML={{ __html: html }} />
-      <Pager prev={prev} next={next} />
-    </>
+      <aside className="doc-rail">
+        <Toc items={tocFromHtml(html)} />
+      </aside>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Pause, Play, Square } from "lucide-react";
 
 type Status = "idle" | "playing" | "paused";
 
@@ -97,11 +98,9 @@ export default function ReadAloud() {
         disabled={isPlaying}
         title={isPaused ? "Resume" : "Read aloud"}
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M8 5v14l11-7z" fill="currentColor" stroke="none" />
-        </svg>
+        <Play aria-hidden="true" />
         <span className="read-aloud-label">
-          {isPaused ? "Resume" : "Read"}
+          {isPaused ? "Resume" : "Listen"}
         </span>
       </button>
       <button
@@ -112,10 +111,7 @@ export default function ReadAloud() {
         disabled={!isPlaying}
         title="Pause"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="6" y="5" width="4" height="14" fill="currentColor" stroke="none" />
-          <rect x="14" y="5" width="4" height="14" fill="currentColor" stroke="none" />
-        </svg>
+        <Pause aria-hidden="true" />
       </button>
       <button
         type="button"
@@ -125,9 +121,7 @@ export default function ReadAloud() {
         disabled={status === "idle"}
         title="Stop"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="6" y="6" width="12" height="12" fill="currentColor" stroke="none" />
-        </svg>
+        <Square aria-hidden="true" />
       </button>
       {isPlaying && <span className="read-aloud-status">Reading…</span>}
       {isPaused && <span className="read-aloud-status">Paused</span>}

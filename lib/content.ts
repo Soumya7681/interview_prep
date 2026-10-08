@@ -30,8 +30,36 @@ const renderer = {
     }</div>`;
     return `<div class="code-block">${toolbar}<pre><code class="hljs language-${language}">${highlighted}</code></pre></div>`;
   },
+  // h2/h3 get stable ids so the "On this page" rail and shared links can
+  // target them. Ids are de-duplicated per document (see preprocess below).
+  heading(this: { parser: { parseInline(t: unknown[]): string } }, { tokens, depth, text }: { tokens: unknown[]; depth: number; text: string }) {
+    const inner = this.parser.parseInline(tokens);
+    if (depth !== 2 && depth !== 3) return `<h${depth}>${inner}</h${depth}>\n`;
+    const base =
+      text
+        .toLowerCase()
+        .replace(/<[^>]+>|`/g, "")
+        .replace(/&[a-z]+;/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "") || "section";
+    const n = headingIds.get(base) ?? 0;
+    headingIds.set(base, n + 1);
+    const id = n ? `${base}-${n}` : base;
+    return `<h${depth} id="${id}">${inner}</h${depth}>\n`;
+  },
 };
-marked.use({ renderer });
+// parse() is synchronous, so resetting at preprocess cannot interleave
+// between two documents.
+const headingIds = new Map<string, number>();
+marked.use({
+  renderer,
+  hooks: {
+    preprocess(md: string) {
+      headingIds.clear();
+      return md;
+    },
+  },
+});
 
 /**
  * The site is exported with `trailingSlash: true`, so every internal URL the
@@ -111,4 +139,27 @@ export function pagerFor(chapter: FlatChapter) {
     prev: idx > 0 ? FLAT[idx - 1] : null,
     next: idx >= 0 && idx < FLAT.length - 1 ? FLAT[idx + 1] : null,
   };
+}
+
+/**
+ * h2/h3 entries for the "On this page" rail, read back out of rendered HTML so
+ * the ids always match the ones the heading renderer emitted.
+ */
+export function tocFromHtml(html: string): Array<{ id: string; text: string; level: 2 | 3 }> {
+  const out: Array<{ id: string; text: string; level: 2 | 3 }> = [];
+  const re = /<h([23]) id="([^"]+)">([\s\S]*?)<\/h\1>/g;
+  for (const m of html.matchAll(re)) {
+    const text = m[3]
+      .replace(/<[^>]+>/g, "")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      // Chapter headings lead with an emoji; it is noise in a nav list.
+      .replace(/^[\p{Extended_Pictographic}\uFE0F\u200D\s]+/u, "")
+      .trim();
+    if (text) out.push({ id: m[2], text, level: m[1] === "2" ? 2 : 3 });
+  }
+  return out;
 }

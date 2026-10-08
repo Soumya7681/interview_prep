@@ -21,7 +21,9 @@ export default async function StartPage() {
   return (
     <>
       <div className="breadcrumb">
-        Getting Started <span className="breadcrumb-current">· Dashboard</span>
+        <span>Getting Started</span>
+        <span className="breadcrumb-sep" aria-hidden="true">/</span>
+        <span className="breadcrumb-current">Dashboard</span>
       </div>
       <HomeDashboard dsaTotal={dsa.total} />
       <article className="md" dangerouslySetInnerHTML={{ __html: html }} />

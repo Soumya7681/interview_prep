@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import hljs from "highlight.js";
+import { ArrowRight, ArrowUpRight, Play } from "lucide-react";
 import { MANIFEST, FLAT } from "@/lib/manifest";
+import { loadDsaContent } from "@/lib/dsa";
 import { TRACKS, totalNodeCount } from "@/lib/roadmaps";
 import {
-  BRAND,
-  COMPANIES,
   SITE_NAME,
   SITE_TAGLINE,
   SEO_KEYWORDS,
@@ -12,6 +13,7 @@ import {
 } from "@/lib/site";
 import StarButton from "@/components/StarButton";
 import CompilerButton from "@/components/CompilerButton";
+import MockQuestion from "@/components/MockQuestion";
 
 /**
  * The landing-page FAQ. The visible list and the FAQPage JSON-LD are both
@@ -74,9 +76,43 @@ function firstHrefOf(folder: string, file: string) {
   return folder ? `/${folder}/${base}` : `/${base}`;
 }
 
-export default function LandingPage() {
+// The book's sections grouped by the interview round they prepare for, in the
+// order a typical full-stack loop runs. Titles must match MANIFEST.
+const ROUNDS: Array<{ name: string; checks: string; sections: string[] }> = [
+  { name: "Fundamentals", checks: "Can you explain the language, not just use it?", sections: ["JavaScript"] },
+  { name: "Frontend", checks: "Hooks, rendering, and a component built live.", sections: ["React", "Machine Coding"] },
+  { name: "Backend", checks: "APIs, auth, data modelling and the event loop.", sections: ["Node.js", "Express / NestJS", "MongoDB"] },
+  { name: "System design", checks: "Trade-offs at scale, out loud, on a whiteboard.", sections: ["System Design", "AI / LLM Engineering"] },
+  { name: "Coding", checks: "Problem solving under a timer.", sections: ["DSA & Coding"] },
+  { name: "HR", checks: "Your story, conflicts, and why this company.", sections: ["HR & Behavioral"] },
+];
+
+const SERVICE_COMPANIES = new Set([
+  "TCS", "Infosys", "Wipro", "Accenture", "Cognizant", "HCLTech",
+  "Tech Mahindra", "Capgemini", "IBM", "Deloitte",
+]);
+
+// Real excerpt from Chapter 1, used for the annotated page.
+const SAMPLE_CODE = `function createCounter() {
+  let count = 0;
+  return () => ++count;   // closes over count
+}
+const next = createCounter();
+next(); // 1
+next(); // 2`;
+
+export default async function LandingPage() {
   const learningSections = MANIFEST.filter((s) => s.title !== "Getting Started");
   const totalChapters = FLAT.filter((f) => f.path !== "README.md").length;
+  const dsa = await loadDsaContent();
+  const companySection = MANIFEST.find((s) => s.title === "Company Specific Questions");
+  const sampleHtml = hljs.highlight(SAMPLE_CODE, { language: "javascript" }).value;
+  const sectionByTitle = new Map(MANIFEST.map((s) => [s.title, s]));
+
+  const companies = companySection?.chapters ?? [];
+  const service = companies.filter((c) => SERVICE_COMPANIES.has(c.title));
+  const product = companies.filter((c) => !SERVICE_COMPANIES.has(c.title) && c.title !== "Other Companies");
+  const other = companies.find((c) => c.title === "Other Companies");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -92,176 +128,364 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="newspaper-wrapper">
-      <div className="newspaper-container">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+    <div className="lp">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        {/* Header */}
-        <header className="np-header">
-          <div className="np-meta">
-            <span>Vol. I — No. 1</span>
-            <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-            <span>Price: FREE</span>
-          </div>
-          <h1 className="np-title">{BRAND}</h1>
-          <h2 className="np-subtitle">THE MOST COMPREHENSIVE GUIDE FOR FULL-STACK ENGINEERS</h2>
-          <div className="np-hr"></div>
-        </header>
-
-        {/* Hero Article */}
-        <section className="np-hero-article">
-          <div className="np-article-content">
-            <h3 className="np-headline">CRACK YOUR INTERVIEW WITH CONFIDENCE!</h3>
-            <p className="np-author">By The Editors</p>
-            <p className="np-text">
-              <span className="np-dropcap">A</span> structured, no-fluff prep book covering JavaScript, React, Node.js, NestJS, MongoDB, system design, machine coding, DSA, and HR rounds is now available to the public. Every topic is meticulously formatted as <strong>Definition → Explanation → Code → Real-world use → Likely questions</strong>.
+      {/* Hero: the promise on the left, a real question on the right. */}
+      <section className="lp-hero lp-bg-dots">
+        <div className="lp-container lp-hero-grid">
+          <div className="lp-hero-copy">
+            <h1 className="lp-title">
+              Walk into the interview having <mark className="hl">already heard</mark> the
+              questions.
+            </h1>
+            <p className="lp-lede">
+              A full-stack prep book for JavaScript, React, Node.js, MongoDB, system design,
+              DSA and HR rounds. Every chapter ends with the follow-ups interviewers actually
+              ask.
             </p>
-            <p className="np-text">
-              Our reporters have scoured the industry to compile over <strong>200+</strong> Data Structure and Algorithm coding questions, alongside <strong>{totalChapters}</strong> topic chapters across <strong>{learningSections.length}</strong> intensive interview rounds. 
-            </p>
-            <div className="np-cta-box">
-              <Link href="/start" className="np-btn">Start Reading Now →</Link>
+            <div className="lp-actions">
+              <Link href="/start" className="btn btn-primary btn-lg">
+                Start with chapter 1
+                <ArrowRight aria-hidden="true" />
+              </Link>
+              <Link href="/11-dsa-coding-questions" className="btn btn-secondary btn-lg">
+                Open the DSA tracker
+              </Link>
             </div>
           </div>
-          <div className="np-article-sidebar">
-             <h4 className="np-sidebar-title">COMPANIES TARGETED</h4>
-             <ul className="np-companies-list">
-               {MANIFEST.find(s => s.title === "Company Specific Questions")?.chapters.map((ch) => {
-                 const folder = MANIFEST.find(s => s.title === "Company Specific Questions")!.folder;
-                 return (
-                   <li key={ch.title}>
-                     <Link 
-                       href={firstHrefOf(folder, ch.file)} 
-                       style={{color: "inherit", textDecoration: "none"}}
-                       className="np-company-link"
-                     >
-                       {ch.title} →
-                     </Link>
-                   </li>
-                 );
-               })}
-             </ul>
-          </div>
-        </section>
-        
-        <div className="np-hr-thick"></div>
 
-        {/* Topic Grid */}
-        <section className="np-topics-section">
-          <h3 className="np-headline-sub">INDEX OF SECTIONS</h3>
-          <div className="np-topics-grid">
-            {learningSections.map((sec) => {
-              const first = sec.chapters[0];
-              if (!first) return null;
-              return (
-                <div key={sec.title} className="np-topic-card">
-                  <Link href={firstHrefOf(sec.folder, first.file)} className="np-topic-link">
-                    <h5 className="np-topic-title">{sec.title}</h5>
-                    <span className="np-topic-meta">{sec.chapters.length} {sec.chapters.length === 1 ? "Chapter" : "Chapters"}</span>
-                  </Link>
+          <MockQuestion />
+        </div>
+      </section>
+
+      {/* Facts strip: what is in the book, at a glance. */}
+      <section className="lp-strip" aria-label="What is inside">
+        <dl className="lp-container lp-strip-grid">
+          <div>
+            <dt>chapters</dt>
+            <dd>{totalChapters}</dd>
+          </div>
+          <div>
+            <dt>DSA questions, tracked</dt>
+            <dd>{dsa.total}</dd>
+          </div>
+          <div>
+            <dt>career roadmaps</dt>
+            <dd>{TRACKS.length}</dd>
+          </div>
+          <div>
+            <dt>open source, no sign-up</dt>
+            <dd>Free</dd>
+          </div>
+        </dl>
+      </section>
+
+      {/* The interview loop: contents grouped by round. */}
+      <section className="lp-section lp-bg-lines" aria-labelledby="lp-loop">
+        <div className="lp-container">
+          <header className="lp-head">
+            <div>
+              <h2 id="lp-loop" className="lp-h2">Organised around the interview loop</h2>
+              <p className="lp-sub">
+                Six rounds, in the order most full-stack loops run. Each one lists what the
+                interviewer is checking and the chapters that cover it.
+              </p>
+            </div>
+          </header>
+
+          <ol className="loop">
+            {ROUNDS.map((round, i) => (
+              <li key={round.name} className="loop-round">
+                <div className="loop-marker" aria-hidden="true">
+                  <span>{i + 1}</span>
                 </div>
-              );
-            })}
+                <div className="loop-body">
+                  <h3 className="loop-name">{round.name}</h3>
+                  <p className="loop-checks">{round.checks}</p>
+                  <ul className="loop-links">
+                    {round.sections.map((title) => {
+                      const sec = sectionByTitle.get(title);
+                      const first = sec?.chapters[0];
+                      if (!sec || !first) return null;
+                      return (
+                        <li key={title}>
+                          <Link href={firstHrefOf(sec.folder, first.file)}>
+                            <span>{title}</span>
+                            <span className="loop-n">{sec.chapters.length}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Annotated page: the five-part chapter format, on a real chapter. */}
+      <section className="lp-section lp-bg-paper" aria-labelledby="lp-format">
+        <div className="lp-container">
+          <header className="lp-head">
+            <div>
+              <h2 id="lp-format" className="lp-h2">Every chapter reads the same way</h2>
+              <p className="lp-sub">
+                Five parts, always in this order, so revising a topic the night before takes
+                minutes. Here is chapter 1, trimmed.
+              </p>
+            </div>
+          </header>
+
+          <div className="anno">
+            <div className="anno-row">
+              <p className="anno-label"><span>1</span>Definition</p>
+              <div className="anno-body">
+                <p className="anno-title">Closures</p>
+                <p>
+                  A closure is a function that remembers the variables from the scope it was
+                  created in, even after that scope has finished executing.
+                </p>
+              </div>
+            </div>
+            <div className="anno-row">
+              <p className="anno-label"><span>2</span>Explanation</p>
+              <div className="anno-body">
+                <p>
+                  Every function carries a hidden reference, <code>[[Environment]]</code>, to
+                  the scope it was defined in. Call it from anywhere later and it can still
+                  reach those variables.
+                </p>
+              </div>
+            </div>
+            <div className="anno-row">
+              <p className="anno-label"><span>3</span>Code</p>
+              <div className="anno-body">
+                <pre className="anno-code">
+                  <code className="hljs language-javascript" dangerouslySetInnerHTML={{ __html: sampleHtml }} />
+                </pre>
+              </div>
+            </div>
+            <div className="anno-row">
+              <p className="anno-label"><span>4</span>Real-world use</p>
+              <div className="anno-body">
+                <p>
+                  Express middleware closes over its config:{" "}
+                  <code>app.use(authMiddleware(config))</code>.
+                </p>
+              </div>
+            </div>
+            <div className="anno-row">
+              <p className="anno-label"><span>5</span>Likely questions</p>
+              <div className="anno-body">
+                <p className="anno-q">What&rsquo;s the output of the classic setTimeout loop?</p>
+                <p className="anno-q">How can closures cause memory leaks?</p>
+                <Link href="/01-javascript/01-closures" className="anno-more">
+                  Read the full chapter
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Companies: split by hiring style, because the rounds differ. */}
+      {companySection && (
+        <section className="lp-section lp-bg-wash" aria-labelledby="lp-companies">
+          <div className="lp-container">
+            <header className="lp-head">
+              <div>
+                <h2 id="lp-companies" className="lp-h2">Interviewing somewhere specific?</h2>
+                <p className="lp-sub">
+                  Product companies and service firms run very different loops. Each page covers
+                  that company&rsquo;s rounds and the questions that come up.
+                </p>
+              </div>
+            </header>
+
+            <div className="co">
+              <div className="co-col">
+                <h3 className="co-title">
+                  Product companies <span>{product.length}</span>
+                </h3>
+                <p className="co-note">Usually weighted toward DSA and system design.</p>
+                <ul className="co-list">
+                  {product.map((ch) => (
+                    <li key={ch.title}>
+                      <Link href={firstHrefOf(companySection.folder, ch.file)}>{ch.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="co-col">
+                <h3 className="co-title">
+                  Service companies <span>{service.length}</span>
+                </h3>
+                <p className="co-note">Usually weighted toward fundamentals, projects and client scenarios.</p>
+                <ul className="co-list">
+                  {service.map((ch) => (
+                    <li key={ch.title}>
+                      <Link href={firstHrefOf(companySection.folder, ch.file)}>{ch.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+                {other && (
+                  <Link href={firstHrefOf(companySection.folder, other.file)} className="co-other">
+                    Startups and other companies
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
         </section>
+      )}
 
-        <div className="np-hr-thick"></div>
+      {/* Roadmaps: a table, because people compare tracks by length. */}
+      <section className="lp-section lp-bg-grid" aria-labelledby="lp-roadmaps">
+        <div className="lp-container">
+          <header className="lp-head">
+            <div>
+              <h2 id="lp-roadmaps" className="lp-h2">Thinking past the next interview?</h2>
+              <p className="lp-sub">
+                {TRACKS.length} career roadmaps and {totalNodeCount()} topics. Each stage says
+                what to learn and which project proves you learned it.
+              </p>
+            </div>
+          </header>
 
-        {/* Career Roadmaps */}
-        <section className="np-topics-section">
-          <h3 className="np-headline-sub">CAREER ROADMAPS — WHAT TO LEARN NEXT</h3>
-          <p className="np-text" style={{textAlign: "center", maxWidth: "760px", margin: "0 auto"}}>
-            Chasing AI engineering, ML, prompt engineering, FDE, data or MLOps? Each roadmap lays
-            out the stages, the {totalNodeCount()} topics inside them, and the project that proves
-            each stage is done. Tick topics off as you go.
-          </p>
-          <div className="np-roadmap-grid">
-            {TRACKS.map((track) => (
-              <Link key={track.slug} href={`/roadmaps/${track.slug}`} className="np-roadmap-card">
-                <h5 className="np-roadmap-name">{track.shortTitle}</h5>
-                <p className="np-roadmap-meta">
-                  {track.stages.length} stages · {track.timeline}
-                </p>
+          <div className="rt">
+            <div className="rt-row rt-headrow" aria-hidden="true">
+              <span>Track</span>
+              <span>Stages</span>
+              <span>Time</span>
+            </div>
+            {TRACKS.slice(0, 8).map((track) => (
+              <Link key={track.slug} href={`/roadmaps/${track.slug}`} className="rt-row">
+                <span className="rt-name">
+                  <span className="rt-mark" aria-hidden="true">{track.mark}</span>
+                  {track.shortTitle}
+                </span>
+                <span className="rt-stages" aria-label={`${track.stages.length} stages`}>
+                  {track.stages.map((st) => (
+                    <i key={st.title} aria-hidden="true" />
+                  ))}
+                </span>
+                <span className="rt-time">{track.timeline}</span>
               </Link>
             ))}
+            <Link href="/roadmaps" className="rt-all">
+              See all {TRACKS.length} roadmaps
+              <ArrowRight aria-hidden="true" />
+            </Link>
           </div>
-          <div className="np-cta-row">
-            <Link href="/roadmaps" className="np-btn">Open the roadmap area</Link>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <div className="np-hr-thick"></div>
-
-        {/* Practice CTA */}
-        <section className="np-practice-section">
-          <h3 className="np-headline" style={{textAlign: "center"}}>PRACTICE RIGHT IN YOUR BROWSER</h3>
-          <p className="np-text" style={{textAlign: "center"}}>
-            Don't just read the ink—run the code! Every JavaScript example is one click from a live editor. No setup required.
-          </p>
-          <div className="np-cta-row">
-            <Link href="/playground" className="np-btn">Open Playground</Link>
-            <a href="https://www.programiz.com/javascript/online-compiler/" target="_blank" rel="noopener noreferrer" className="np-btn">Launch Compiler</a>
-          </div>
-        </section>
-        
-        
-        <div className="np-hr-thick"></div>
-
-        {/* Editorial Opinion */}
-        <section className="np-hero-article">
-          <div className="np-article-content" style={{borderRight: 'none', paddingRight: 0}}>
-            <h3 className="np-headline">THE EDITORIAL OPINION: WHY THIS PREP BOOK?</h3>
-            <p className="np-author">By The Chief Editor</p>
-            <p className="np-text">
-              <span className="np-dropcap">T</span>he modern job market for software engineers has never been more competitive. With the advent of artificial intelligence, tightening economic conditions, and shifting tech stacks, passing a technical interview requires more than just knowing syntax. It requires deep, fundamental understanding of system architecture, data structures, and human behavior.
-            </p>
-            <p className="np-text">
-              This publication was established to serve as the definitive, single-source compendium for full-stack interview preparation. We bypass the trivialities and focus strictly on what hiring committees discuss behind closed doors. Whether you are navigating the intricate algorithms required by FAANG or the complex architectural questions demanded by enterprise consulting firms, our syllabus provides the rigorous blueprint necessary for success.
-            </p>
-          </div>
-        </section>
-
-        <div className="np-hr-thick"></div>
-
-        {/* SEO FAQ Section */}
-        <section className="np-topics-section">
-          <h3 className="np-headline-sub">FREQUENTLY ASKED QUESTIONS</h3>
-          <dl className="np-faq">
-            {FAQS.map((item) => (
-              <div key={item.q} className="np-faq-item">
-                <dt className="np-faq-q">{item.q}</dt>
-                <dd className="np-faq-a">{item.a}</dd>
+      {/* Playground: shown as a console, because that is what it is. */}
+      <section className="lp-section lp-inverse" aria-labelledby="lp-playground">
+        <div className="lp-container pgx">
+          <div>
+            <header className="lp-head lp-head-tight">
+              <div>
+                <h2 id="lp-playground" className="lp-h2">Change the example. Run it again.</h2>
+                <p className="lp-sub">
+                  The JavaScript playground runs in a sandboxed frame in your browser. No server,
+                  no account, and your code never leaves your machine.
+                </p>
               </div>
+            </header>
+            <div className="lp-actions">
+              <Link href="/playground" className="btn btn-primary">
+                <Play aria-hidden="true" />
+                Open playground
+              </Link>
+              <CompilerButton variant="hero" label="Other languages" className="btn-md" />
+            </div>
+          </div>
+          <div className="console" aria-hidden="true">
+            <div className="console-bar">
+              <span>playground.js</span>
+              <span className="console-run">Run</span>
+            </div>
+            <pre className="console-code">
+              <code
+                className="hljs language-javascript"
+                dangerouslySetInnerHTML={{
+                  __html: hljs.highlight(
+                    `for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i));\n}`,
+                    { language: "javascript" },
+                  ).value,
+                }}
+              />
+            </pre>
+            <div className="console-out">
+              <span>3</span>
+              <span>3</span>
+              <span>3</span>
+              <span className="console-hint">swap var for let and run again</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="lp-section lp-bg-subtle" aria-labelledby="lp-faq">
+        <div className="lp-container">
+          <header className="lp-head">
+            <div>
+              <h2 id="lp-faq" className="lp-h2">Before you start</h2>
+              <p className="lp-sub">
+                Something missing?{" "}
+                <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer">
+                  Open an issue on GitHub
+                  <ArrowUpRight aria-hidden="true" className="inline-icon" />
+                </a>
+              </p>
+            </div>
+          </header>
+          <div className="lp-faq">
+            {FAQS.map((item) => (
+              <details key={item.q} className="lp-faq-item">
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
             ))}
-          </dl>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <div className="np-hr"></div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: FAQS.map((item) => ({
+              "@type": "Question",
+              name: item.q,
+              acceptedAnswer: { "@type": "Answer", text: item.a },
+            })),
+          }),
+        }}
+      />
 
-        {/* SEO JSON-LD Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": FAQS.map((item) => ({
-                "@type": "Question",
-                "name": item.q,
-                "acceptedAnswer": { "@type": "Answer", "text": item.a },
-              })),
-            })
-          }}
-        />
-
-        <footer className="np-footer">
-          <span>{SITE_NAME}</span>
-          <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" style={{color: "inherit", marginLeft: "10px"}}>View on GitHub</a>
-        </footer>
-      </div>
+      <footer className="lp-footer">
+        <div className="lp-container lp-footer-inner">
+          <span>{SITE_NAME} · MIT licensed</span>
+          <div className="lp-footer-links">
+            <Link href="/start">Book</Link>
+            <Link href="/roadmaps">Roadmaps</Link>
+            <Link href="/playground">Playground</Link>
+            <StarButton variant="hero" className="btn-md" />
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
